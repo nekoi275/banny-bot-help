@@ -1,19 +1,24 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import ModelCard from "@/components/ModelCard.vue";
+import Settings from "@/components/Settings.vue";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import Toast from "primevue/toast";
-import { ContentKey, getText } from "@/utils/common";
 import type { Model, User } from "@/utils/types";
 import { useMiniApp } from "vue-tg";
 
 const miniApp = useMiniApp();
 const userId = miniApp.initDataUnsafe.user?.id;
-
+//const userId = 432200327;
 const models = ref<Model[]>([]);
 const user = ref<User | null>(null);
 const selectedModel = ref<string>("");
+const tabHeaders = ["Description", "Models", "Settings"];
+
+const modelNames = computed(() => {
+  return models.value.map(model => model.name)
+});
 
 onMounted(async () => {
   try {
@@ -37,10 +42,10 @@ onMounted(async () => {
 
 <template>
   <TabView>
-    <TabPanel :header="`${getText(ContentKey.General, ContentKey.Header)}`">
-      <div v-html="getText(ContentKey.General, ContentKey.Content)"></div>
+    <TabPanel :header="tabHeaders[0]">
+      <div>Some text</div>
     </TabPanel>
-    <TabPanel :header="`${getText(ContentKey.Models, ContentKey.Header)}`">
+    <TabPanel :header="tabHeaders[1]">
       <ModelCard 
         v-for="model in models" 
         :key="model.name" 
@@ -49,6 +54,9 @@ onMounted(async () => {
           backgroundColor: model.name === selectedModel ? '#9bc597' : ''
         }"
       />
+    </TabPanel>
+    <TabPanel :header="tabHeaders[2]">
+      <Settings :settings="user?.settings" :models="modelNames"></Settings>
     </TabPanel>
   </TabView>
   <Toast />
