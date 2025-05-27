@@ -1,4 +1,4 @@
-import content from '../data/content.json'
+import content from '@/data/content.json'
 
 export enum ContentKey {
   General = "general",
