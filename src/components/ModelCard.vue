@@ -6,7 +6,6 @@ import type { Model } from "@/utils/types";
 const props = defineProps<{
   model: Model;
 }>();
-console.log(props.model);
 const modelHomepage = computed(() => {
   return props.model?.homepage;
 });
@@ -28,7 +27,6 @@ const hasImages = computed(() => {
 
 <template>
   <div class="card" v-if="model">
-    <!-- Заголовок с ссылкой -->
     <a
       v-if="modelHomepage"
       :href="modelHomepage"
@@ -38,8 +36,12 @@ const hasImages = computed(() => {
       {{ model.name }}
     </a>
     <h2 v-else>{{ model.name }}</h2>
+    <p v-if="model.nsfw !== undefined">
+      {{ model.nsfw ? "&#128286" : "" }}
+    </p>
+    <p v-if="model.style">{{ model.style }}</p>
+    <p v-if="model.baseline">{{ model.baseline === "stable_diffusion_xl" ? "SDXL" : "SD" }}</p>
 
-    <!-- Галерея изображений -->
     <Galleria
       v-if="hasImages"
       :value="modelImages"
@@ -58,21 +60,8 @@ const hasImages = computed(() => {
       </template>
     </Galleria>
 
-    <!-- Описание -->
     <div class="description" v-if="model.description">
-      <h3>Description:</h3>
       <p>{{ model.description }}</p>
-    </div>
-
-    <!-- Детали модели -->
-    <div class="details">
-      <p v-if="model.style"><strong>Style:</strong> {{ model.style }}</p>
-      <p v-if="model.baseline">
-        <strong>Baseline:</strong> {{ model.baseline }}
-      </p>
-      <p v-if="model.nsfw !== undefined">
-        <strong>NSFW:</strong> {{ model.nsfw ? "Yes" : "No" }}
-      </p>
     </div>
   </div>
 </template>
@@ -85,19 +74,11 @@ const hasImages = computed(() => {
   margin: 1rem;
 }
 .card a {
-  font-size: 24pt;
+  font-size: 18pt;
 }
-.card a:link {
-  text-decoration: none;
-}
-.card a:visited {
-  text-decoration: none;
-}
-.card a:hover {
-  text-decoration: none;
-}
-.card a:active {
-  text-decoration: none;
+.card p {
+  display: inline;
+  margin-left: 3px;
 }
 .p-galleria {
   margin: auto;

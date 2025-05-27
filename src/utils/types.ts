@@ -34,3 +34,24 @@ export interface Model {
   eta?: number;
   jobs?: number;
 }
+
+export interface UserSettings {
+  width: number;
+  mode: string;
+  model: string;
+  seed: null | string;
+  steps: number;
+  height: number;
+  lang: string;
+  is_premium: boolean;
+  quota: number;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  settings: UserSettings;
+  history_ts: number;
+  updated_at: number;
+  created_at: number;
+}

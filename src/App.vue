@@ -5,27 +5,32 @@ import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import Toast from "primevue/toast";
 import { ContentKey, getText } from "@/utils/common";
-import type { Model } from "@/utils/types";
+import type { Model, User } from "@/utils/types";
+import { useMiniApp } from "vue-tg";
 
-declare global {
-  interface Window {
-    Telegram: any;
-  }
-}
+const miniApp = useMiniApp();
+const userId = miniApp.initDataUnsafe.user?.id;
 
 const models = ref<Model[]>([]);
+const user = ref<User | null>(null);
+const selectedModel = ref<string>("");
 
 onMounted(async () => {
   try {
-    const response = await fetch(
-      "https://a3eqyxqi6gfrg3nhw4v3rl6q4m0gtpqi.lambda-url.eu-west-1.on.aws/models"
-    );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    models.value = await response.json();
+    const [modelsResponse, userResponse] = await Promise.all([
+      fetch("https://a3eqyxqi6gfrg3nhw4v3rl6q4m0gtpqi.lambda-url.eu-west-1.on.aws/models"),
+      fetch(`https://a3eqyxqi6gfrg3nhw4v3rl6q4m0gtpqi.lambda-url.eu-west-1.on.aws/user?id=${userId}`)
+    ]);
+
+    if (!modelsResponse.ok) throw new Error("Network response was not ok");
+    if (!userResponse.ok) throw new Error(`HTTP error! status: ${userResponse.status}`);
+
+    models.value = await modelsResponse.json();
+    const userData: User = await userResponse.json();
+    user.value = userData;
+    selectedModel.value = userData.settings.model;
   } catch (error) {
-    console.error("Error fetching models:", error);
+    console.error("Error fetching data:", error);
   }
 });
 </script>
@@ -36,7 +41,14 @@ onMounted(async () => {
       <div v-html="getText(ContentKey.General, ContentKey.Content)"></div>
     </TabPanel>
     <TabPanel :header="`${getText(ContentKey.Models, ContentKey.Header)}`">
-      <ModelCard v-for="model in models" :key="model.name" :model="model" />
+      <ModelCard 
+        v-for="model in models" 
+        :key="model.name" 
+        :model="model"
+        :style="{
+          backgroundColor: model.name === selectedModel ? '#9bc597' : ''
+        }"
+      />
     </TabPanel>
   </TabView>
   <Toast />
