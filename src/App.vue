@@ -12,7 +12,7 @@ const miniApp = useMiniApp();
 const userId = miniApp.initDataUnsafe.user?.id;
 //const userId = 432200327;
 const models = ref<Model[]>([]);
-const user = ref<User | null>(null);
+const user = ref<User>();
 const selectedModel = ref<string>("");
 const tabHeaders = ["Description", "Models", "Settings"];
 

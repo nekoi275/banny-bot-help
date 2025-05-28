@@ -3,7 +3,7 @@ import type { UserSettings } from "@/utils/types";
 import MultiSelect from 'primevue/multiselect';
 
 const props = defineProps<{
-  settings: UserSettings;
+  settings?: UserSettings;
   models: string[];
 }>();
 
