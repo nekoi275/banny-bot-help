@@ -90,6 +90,9 @@ const hasImages = computed(() => {
   width: auto;
   max-width: 400px;
 }
+.description {
+  padding-top: 8px;
+}
 @media (max-width: 800px) {
   .p-galleria {
     width: 250px;

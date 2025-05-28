@@ -9,8 +9,8 @@ import type { Model, User } from "@/utils/types";
 import { useMiniApp } from "vue-tg";
 
 const miniApp = useMiniApp();
-const userId = miniApp.initDataUnsafe.user?.id;
-//const userId = 432200327;
+//const userId = miniApp.initDataUnsafe.user?.id;
+const userId = 5531425211;
 const models = ref<Model[]>([]);
 const user = ref<User>();
 const selectedModel = ref<string>("");
@@ -63,9 +63,13 @@ onMounted(async () => {
 </template>
 
 <style>
-* {
+/* * {
   background-color: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
+} */
+* {
+  background-color: #f5f5f5;
+  color: #000000;
 }
 html,
 body,
