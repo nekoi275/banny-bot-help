@@ -9,8 +9,8 @@ import type { Model, User } from "@/utils/types";
 import { useMiniApp } from "vue-tg";
 
 const miniApp = useMiniApp();
-//const userId = miniApp.initDataUnsafe.user?.id;
-const userId = 5531425211;
+const userId = miniApp.initDataUnsafe.user?.id;
+//const userId = 5531425211;
 const models = ref<Model[]>([]);
 const user = ref<User>();
 const selectedModel = ref<string>("");
