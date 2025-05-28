@@ -21,10 +21,22 @@ const modes = [
   { label: 'Art', value: 'ART' }
 ];
 
+const resolutions = [
+  { label: '3:4', value: [960, 1280] },
+  { label: '2:3', value: [896, 1344] },
+  { label: '9:16', value: [832, 1472] },
+  { label: '1:2', value: [768, 1536] },
+  { label: '4:3', value: [1280, 960] },
+  { label: '3:2', value: [1344, 896] },
+  { label: '16:9', value: [1472, 832] },
+  { label: '2:1', value: [1536, 768] },
+  { label: '1:1', value: [1024, 1024] }
+];
+
 const localSettings = ref<UserSettings>({
   width: 512,
   height: 512,
-  mode: modes[0].value, // Используем value первого элемента по умолчанию
+  mode: modes[0].value,
   model: props.models[0] || '',
   seed: null,
   steps: 20,
@@ -70,10 +82,16 @@ const decrementDimension = (dimension: 'width' | 'height') => {
   updateSettings(dimension, newValue);
 };
 
+const applyResolution = (value: number[]) => {
+  if (value && value.length === 2) {
+    updateSettings('width', value[0]);
+    updateSettings('height', value[1]);
+  }
+};
+
 const saveSettings = async () => {
   isLoading.value = true;
   try {
-    // Замените URL на ваш бэкенд эндпоинт когда он будет готов
     const response = await fetch('', {
       method: 'POST',
       headers: {
@@ -128,6 +146,19 @@ const saveSettings = async () => {
         :options="models"
         @change="updateSettings('model', $event.value)"
         placeholder="Select model"
+        class="dropdown-white-bg"
+      />
+    </div>
+
+    <div class="field">
+      <label for="resolution">Resolution Presets</label>
+      <Dropdown
+        id="resolution"
+        :options="resolutions"
+        option-label="label"
+        option-value="value"
+        @change="applyResolution($event.value)"
+        placeholder="Select resolution"
         class="dropdown-white-bg"
       />
     </div>
