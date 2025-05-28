@@ -63,13 +63,9 @@ onMounted(async () => {
 </template>
 
 <style>
-/* * {
+* {
   background-color: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
-} */
-* {
-  background-color: #f5f5f5;
-  color: #000000;
 }
 html,
 body,

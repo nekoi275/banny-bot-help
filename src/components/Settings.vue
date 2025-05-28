@@ -22,14 +22,14 @@ const modes = [
 ];
 
 const resolutions = [
-  { label: '3:4', value: [960, 1280] },
-  { label: '2:3', value: [896, 1344] },
-  { label: '9:16', value: [832, 1472] },
-  { label: '1:2', value: [768, 1536] },
-  { label: '4:3', value: [1280, 960] },
-  { label: '3:2', value: [1344, 896] },
-  { label: '16:9', value: [1472, 832] },
   { label: '2:1', value: [1536, 768] },
+  { label: '1:2', value: [768, 1536] },
+  { label: '16:9', value: [1472, 832] },
+  { label: '9:16', value: [832, 1472] },
+  { label: '3:2', value: [1344, 896] },
+  { label: '2:3', value: [896, 1344] },
+  { label: '4:3', value: [1280, 960] },
+  { label: '3:4', value: [960, 1280] },
   { label: '1:1', value: [1024, 1024] }
 ];
 
