@@ -20,7 +20,7 @@ export const useAppStore = defineStore("app", () => {
   const tabHeaders = computed(() => {
     if (!siteContent.value) return ["Description", "Models", "Settings"];
     return [
-      siteContent.value.menu_info,
+      siteContent.value.menu_main,
       siteContent.value.menu_models,
       siteContent.value.menu_settings,
     ];

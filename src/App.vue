@@ -30,7 +30,7 @@ onMounted(async () => {
 <template>
   <TabView>
     <TabPanel :header="appStore.tabHeaders[0]">
-      <div v-html="appStore.siteContent?.content_main[0]"></div>
+      <div v-html="appStore.siteContent?.content_main"></div>
     </TabPanel>
     <TabPanel :header="appStore.tabHeaders[1]">
       <ModelCard 
