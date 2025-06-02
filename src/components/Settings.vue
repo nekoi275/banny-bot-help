@@ -1,45 +1,30 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import type { UserSettings } from "@/utils/types";
 import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
 import Button from 'primevue/button';
 import { useToast } from 'primevue/usetoast';
+import { useAppStore } from '@/stores/appStore';
+import { type UserSettings } from "@/utils/types";
 
 const toast = useToast();
+const appStore = useAppStore();
 
 const props = defineProps<{
   settings?: UserSettings;
-  models: string[];
 }>();
 
 const emit = defineEmits(['update:settings']);
 
-const modes = [
-  { label: 'Roleplay', value: 'RP' },
-  { label: 'Roleplay and art', value: 'RP_ART' },
-  { label: 'Art', value: 'ART' }
-];
-
-const resolutions = [
-  { label: '1:2', value: [768, 1536] },
-  { label: '9:16', value: [832, 1472] },
-  { label: '2:3', value: [896, 1344] },
-  { label: '3:4', value: [960, 1280] },
-  { label: '1:1', value: [1024, 1024] }
-];
-
 const localSettings = ref<UserSettings>({
   width: 512,
   height: 512,
-  mode: modes[0].value,
-  model: props.models[0] || '',
+  mode: appStore.modes[0]?.value || 'RP',
+  model: appStore.modelNames[0] || '',
   seed: null,
   steps: 20,
   ...props.settings
 });
-
-const isLoading = ref(false);
 
 watch(() => props.settings, (newSettings) => {
   if (newSettings) {
@@ -83,18 +68,8 @@ const applyResolution = (value: number[]) => {
 };
 
 const saveSettings = async () => {
-  isLoading.value = true;
   try {
-    const response = await fetch('', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(localSettings.value)
-    });
-
-    if (!response.ok) throw new Error('Failed to save settings');
-
+    await appStore.saveSettings(localSettings.value);
     toast.add({
       severity: 'success',
       summary: 'Success',
@@ -108,9 +83,6 @@ const saveSettings = async () => {
       detail: 'Failed to save settings',
       life: 3000
     });
-    console.error('Error saving settings:', error);
-  } finally {
-    isLoading.value = false;
   }
 };
 </script>
@@ -118,47 +90,47 @@ const saveSettings = async () => {
 <template>
   <div class="settings-container p-fluid">
     <div class="field">
-      <label for="mode">Mode</label>
+      <label for="mode">{{ appStore.siteContent?.settings_mode || 'Mode' }}</label>
       <Dropdown
         id="mode"
         v-model="localSettings.mode"
-        :options="modes"
+        :options="appStore.modes"
         option-label="label"
         option-value="value"
         @change="updateSettings('mode', $event.value)"
-        placeholder="Select mode"
+        :placeholder="appStore.siteContent?.settings_mode || 'Select mode'"
         class="dropdown-white-bg"
       />
     </div>
 
     <div class="field">
-      <label for="model">Model</label>
+      <label for="model">{{ appStore.siteContent?.settings_model || 'Model' }}</label>
       <Dropdown
         id="model"
         v-model="localSettings.model"
-        :options="models"
+        :options="appStore.modelNames"
         @change="updateSettings('model', $event.value)"
-        placeholder="Select model"
+        :placeholder="appStore.siteContent?.settings_model || 'Select model'"
         class="dropdown-white-bg"
       />
     </div>
 
     <div class="field">
-      <label for="resolution">Resolution Presets</label>
+      <label for="resolution">{{ appStore.siteContent?.settings_resolution || 'Resolution Presets' }}</label>
       <Dropdown
         id="resolution"
-        :options="resolutions"
+        :options="appStore.resolutions"
         option-label="label"
         option-value="value"
         @change="applyResolution($event.value)"
-        placeholder="Select resolution"
+        :placeholder="appStore.siteContent?.settings_resolution || 'Select resolution'"
         class="dropdown-white-bg"
       />
     </div>
 
     <div class="dimensions-vertical">
       <div class="dimension-group">
-        <label>Height</label>
+        <label>{{ appStore.siteContent?.settings_height || 'Height' }}</label>
         <div class="dimension-controls">
           <InputNumber
             v-model="localSettings.height"
@@ -193,7 +165,7 @@ const saveSettings = async () => {
       />
 
       <div class="dimension-group">
-        <label>Width</label>
+        <label>{{ appStore.siteContent?.settings_width || 'Width' }}</label>
         <div class="dimension-controls">
           <InputNumber
             v-model="localSettings.width"
@@ -222,15 +194,15 @@ const saveSettings = async () => {
     </div>
 
     <Button
-      label="Save"
+      :label="appStore.siteContent?.settings_save || 'Save'"
       @click="saveSettings"
-      :loading="isLoading"
       class="save-button"
     />
   </div>
 </template>
 
 <style scoped>
+/* Стили остаются без изменений */
 .settings-container {
   display: flex;
   flex-direction: column;

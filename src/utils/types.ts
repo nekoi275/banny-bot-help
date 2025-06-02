@@ -75,3 +75,20 @@ export interface UserData {
   balance: Balance;
   expenses: Expense[];
 }
+
+export interface Content {
+  [key: string]: string | string[];
+  menu_main: string;
+  menu_models: string;
+  menu_settings: string;
+  content_main: string[];
+  settings_mode: string;
+  settings_mode_RP: string;
+  settings_mode_RPART: string;
+  settings_mode_ART: string;
+  settings_model: string;
+  settings_resolution: string;
+  settings_width: string;
+  settings_height: string;
+  settings_save: string;
+}

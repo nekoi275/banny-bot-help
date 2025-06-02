@@ -1,62 +1,53 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
 import ModelCard from "@/components/ModelCard.vue";
 import Settings from "@/components/Settings.vue";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import Toast from "primevue/toast";
-import type { Model, User } from "@/utils/types";
 import { useMiniApp } from "vue-tg";
+import { useAppStore } from '@/stores/appStore';
+import { onMounted } from 'vue';
 
 const miniApp = useMiniApp();
-//const userId = miniApp.initDataUnsafe.user?.id;
-const userId = 5531425211;
-const models = ref<Model[]>([]);
-const user = ref<User>();
-const selectedModel = ref<string | null>(null);
-const tabHeaders = ["Description", "Models", "Settings"];
+const appStore = useAppStore();
 
-const modelNames = computed(() => {
-  return models.value.map(model => model.name)
-});
+// только для телеграмма
+/*
+const initData = miniApp.initDataUnsafe;
+if (initData.user?.id) {
+  appStore.userId = initData.user.id;
+}
+if (initData.user?.language_code) {
+  appStore.userLang = initData.user.language_code;
+}
+*/
 
 onMounted(async () => {
-  try {
-    const [modelsResponse, userResponse] = await Promise.all([
-      fetch("https://a3eqyxqi6gfrg3nhw4v3rl6q4m0gtpqi.lambda-url.eu-west-1.on.aws/models"),
-      fetch(`https://a3eqyxqi6gfrg3nhw4v3rl6q4m0gtpqi.lambda-url.eu-west-1.on.aws/user/${userId}`)
-    ]);
-
-    if (!modelsResponse.ok) throw new Error("Network response was not ok");
-    if (!userResponse.ok) throw new Error(`HTTP error! status: ${userResponse.status}`);
-
-    models.value = await modelsResponse.json();
-    const userData: User = await userResponse.json();
-    user.value = userData;
-    selectedModel.value = userData.settings.model;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
+  await appStore.fetchInitialData();
 });
 </script>
 
 <template>
   <TabView>
-    <TabPanel :header="tabHeaders[0]">
-      <div>Some text</div>
+    <TabPanel :header="appStore.tabHeaders[0]">
+      <div v-html="appStore.siteContent?.content_main[0]"></div>
     </TabPanel>
-    <TabPanel :header="tabHeaders[1]">
+    <TabPanel :header="appStore.tabHeaders[1]">
       <ModelCard 
-        v-for="model in models" 
+        v-for="model in appStore.models" 
         :key="model.name" 
         :model="model"
         :style="{
-          backgroundColor: model.name === selectedModel ? '#9bc597' : ''
+          backgroundColor: model.name === appStore.selectedModel ? '#9bc597' : ''
         }"
       />
     </TabPanel>
-    <TabPanel :header="tabHeaders[2]">
-      <Settings :settings="user?.settings" :models="modelNames"></Settings>
+    <TabPanel :header="appStore.tabHeaders[2]">
+      <Settings 
+        :settings="appStore.user?.settings" 
+        :models="appStore.modelNames"
+        :content="appStore.siteContent"
+      ></Settings>
     </TabPanel>
   </TabView>
   <Toast />
