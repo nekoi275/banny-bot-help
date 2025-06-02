@@ -11,8 +11,8 @@ export const useAppStore = defineStore("app", () => {
   const user = ref<User>();
   const siteContent = ref<Content>();
   const selectedModel = ref<string | null>(null);
-  const userId = ref<number>(301507567);
-  const userLang = ref<string>("ru");
+  const userId = ref<number>(301507567); // тестовый юзер
+  const userLang = ref<string>("ru"); // тестовый язык
 
   // Геттеры
   const modelNames = computed(() => models.value.map((model) => model.name));
