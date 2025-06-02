@@ -38,20 +38,40 @@ export interface Model {
 export interface UserSettings {
   width: number;
   mode: string;
-  model: string;
-  seed: null | string;
+  model: string | null;
+  seed: string | null;
   steps: number;
   height: number;
-  lang: string;
-  is_premium: boolean;
-  quota: number;
 }
 
 export interface User {
   id: number;
   name: string;
   settings: UserSettings;
+  lang: string;
+  is_premium: boolean;
+  quota: number;
   history_ts: number;
   updated_at: number;
   created_at: number;
+}
+
+export interface Balance {
+  quota: number;
+  balance: number;
+  balance_quota: number;
+  next_carrot_seconds: number;
+}
+
+export interface Expense {
+  ts: number;
+  v: number;
+  b: number;
+  bq: number;
+}
+
+export interface UserData {
+  user: User;
+  balance: Balance;
+  expenses: Expense[];
 }

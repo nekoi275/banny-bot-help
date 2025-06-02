@@ -9,11 +9,11 @@ import type { Model, User } from "@/utils/types";
 import { useMiniApp } from "vue-tg";
 
 const miniApp = useMiniApp();
-const userId = miniApp.initDataUnsafe.user?.id;
-//const userId = 5531425211;
+//const userId = miniApp.initDataUnsafe.user?.id;
+const userId = 5531425211;
 const models = ref<Model[]>([]);
 const user = ref<User>();
-const selectedModel = ref<string>("");
+const selectedModel = ref<string | null>(null);
 const tabHeaders = ["Description", "Models", "Settings"];
 
 const modelNames = computed(() => {
@@ -24,7 +24,7 @@ onMounted(async () => {
   try {
     const [modelsResponse, userResponse] = await Promise.all([
       fetch("https://a3eqyxqi6gfrg3nhw4v3rl6q4m0gtpqi.lambda-url.eu-west-1.on.aws/models"),
-      fetch(`https://a3eqyxqi6gfrg3nhw4v3rl6q4m0gtpqi.lambda-url.eu-west-1.on.aws/user?id=${userId}`)
+      fetch(`https://a3eqyxqi6gfrg3nhw4v3rl6q4m0gtpqi.lambda-url.eu-west-1.on.aws/user/${userId}`)
     ]);
 
     if (!modelsResponse.ok) throw new Error("Network response was not ok");

@@ -36,9 +36,6 @@ const localSettings = ref<UserSettings>({
   model: props.models[0] || '',
   seed: null,
   steps: 20,
-  lang: 'en',
-  is_premium: false,
-  quota: 0,
   ...props.settings
 });
 
