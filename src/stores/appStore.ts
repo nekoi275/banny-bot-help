@@ -108,9 +108,9 @@ export const useAppStore = defineStore("app", () => {
     }
   }
 
-  async function saveSettings(settings: UserSettings) {
+  async function saveSettings(settings: UserSettings, id: number) {
     try {
-      const response = await fetch(`${BASEURL}/user/settings`, {
+      const response = await fetch(`${BASEURL}/user/${id}/settings`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -143,7 +143,6 @@ export const useAppStore = defineStore("app", () => {
 
     // Действия
     fetchInitialData,
-    fetchContent,
     saveSettings,
   };
 });

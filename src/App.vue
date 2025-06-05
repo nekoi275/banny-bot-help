@@ -43,11 +43,7 @@ onMounted(async () => {
       />
     </TabPanel>
     <TabPanel :header="appStore.tabHeaders[2]">
-      <Settings 
-        :settings="appStore.user?.settings" 
-        :models="appStore.modelNames"
-        :content="appStore.siteContent"
-      ></Settings>
+      <Settings></Settings>
     </TabPanel>
   </TabView>
   <Toast />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
 import Button from 'primevue/button';
@@ -10,22 +10,33 @@ import { type UserSettings } from "@/utils/types";
 const toast = useToast();
 const appStore = useAppStore();
 
-const props = defineProps<{
-  settings?: UserSettings;
-}>();
-
 const emit = defineEmits(['update:settings']);
 
 const localSettings = ref<UserSettings>({
-  width: 512,
-  height: 512,
-  mode: appStore.modes[0]?.value || 'RP',
-  model: appStore.modelNames[0] || '',
-  seed: props.settings?.seed || null,
-  steps: 20 // если есть в модели, ставить макс и мин как в модели, или по дефолту 10-50
+  width: appStore.user?.settings?.width || 512,
+  height: appStore.user?.settings?.height || 512,
+  mode: appStore.user?.settings?.mode || appStore.modes[0]?.value || 'RP',
+  model: appStore.user?.settings?.model || appStore.modelNames[0] || '',
+  seed: appStore.user?.settings?.seed || null,
+  steps: appStore.user?.settings?.steps || 20
 });
 
-watch(() => props.settings, (newSettings) => {
+// Добавляем вычисляемое свойство для текущего разрешения
+const currentResolution = computed(() => {
+  return appStore.resolutions.find(res => 
+    res.value[0] === localSettings.value.width && 
+    res.value[1] === localSettings.value.height
+  );
+});
+
+// Инициализация настроек при монтировании компонента
+onMounted(() => {
+  if (appStore.user?.settings) {
+    localSettings.value = { ...localSettings.value, ...appStore.user.settings };
+  }
+});
+
+watch(() => appStore.user?.settings, (newSettings) => {
   if (newSettings) {
     localSettings.value = { ...localSettings.value, ...newSettings };
   }
@@ -68,7 +79,7 @@ const applyResolution = (value: number[]) => {
 
 const saveSettings = async () => {
   try {
-    await appStore.saveSettings(localSettings.value);
+    await appStore.saveSettings(localSettings.value, appStore.userId);
     toast.add({
       severity: 'success',
       summary: 'Success',
@@ -118,6 +129,7 @@ const saveSettings = async () => {
       <label for="resolution">{{ appStore.siteContent?.settings_resolution || 'Resolution Presets' }}</label>
       <Dropdown
         id="resolution"
+        v-model="currentResolution"
         :options="appStore.resolutions"
         option-label="label"
         option-value="value"
@@ -201,7 +213,6 @@ const saveSettings = async () => {
 </template>
 
 <style scoped>
-/* Стили остаются без изменений */
 .settings-container {
   display: flex;
   flex-direction: column;
