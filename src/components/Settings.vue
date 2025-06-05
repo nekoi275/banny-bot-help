@@ -21,9 +21,8 @@ const localSettings = ref<UserSettings>({
   height: 512,
   mode: appStore.modes[0]?.value || 'RP',
   model: appStore.modelNames[0] || '',
-  seed: null,
-  steps: 20,
-  ...props.settings
+  seed: props.settings?.seed || null,
+  steps: 20 // если есть в модели, ставить макс и мин как в модели, или по дефолту 10-50
 });
 
 watch(() => props.settings, (newSettings) => {

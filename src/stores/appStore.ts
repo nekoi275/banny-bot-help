@@ -88,17 +88,20 @@ export const useAppStore = defineStore("app", () => {
       throw error;
     }
   }
+
   async function fetchInitialData() {
     try {
-      const [modelsData, userData, contentData] = await Promise.all([
-        fetchModels(),
+      const [userData, contentData] = await Promise.all([
         fetchUserData(userId.value),
         fetchContent(userLang.value)
       ]);
-      models.value = modelsData;
+
       user.value = userData.user;
       selectedModel.value = user.value.settings.model;
       siteContent.value = contentData;
+
+      const modelsData = await fetchModels();
+      models.value = modelsData;
     } catch (error) {
       console.error("Error fetching initial data:", error);
       throw error;
