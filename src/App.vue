@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ModelCard from "@/components/ModelCard.vue";
 import Settings from "@/components/Settings.vue";
+import UserProfile from "@/components/UserProfile.vue";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import Toast from "primevue/toast";
@@ -29,6 +30,9 @@ onMounted(async () => {
 
 <template>
   <TabView>
+    <TabPanel header="Profile">
+      <UserProfile/>
+    </TabPanel>
     <TabPanel :header="appStore.tabHeaders[0]">
       <div v-html="appStore.siteContent?.content_main"></div>
     </TabPanel>
