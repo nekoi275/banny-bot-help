@@ -55,6 +55,8 @@ export interface User {
   history_ts: number;
   updated_at: number;
   created_at: number;
+  balance: string;
+  days: number;
 }
 
 export interface Balance {

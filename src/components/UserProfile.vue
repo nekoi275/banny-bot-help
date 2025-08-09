@@ -20,12 +20,12 @@ const appStore = useAppStore();
             {{ appStore.user?.quota }}
           </div>
           <div class="field">
-            <span class="p-text-secondary"><strong>Created:</strong></span>
-            {{ appStore.user ? new Date(appStore.user.created_at * 1000).toLocaleString() : '' }}
+            <span class="p-text-secondary"><strong>Balance:</strong></span>
+            {{ appStore.user?.balance }}
           </div>
           <div class="field">
-            <span class="p-text-secondary"><strong>Last Updated:</strong></span>
-            {{ appStore.user ? new Date(appStore.user.updated_at * 1000).toLocaleString() : '' }}
+            <span class="p-text-secondary"><strong>User for:</strong></span>
+            {{ appStore.user?.days }} days
           </div>
         </div>
       </div>
