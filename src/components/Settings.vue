@@ -114,7 +114,7 @@ const saveSettings = async () => {
         optionLabel=""
         optionValue=""
         @change="updateSettings('lang', $event.value)"
-        :placeholder="appStore.siteContent?.settings_lang || 'Select language'"
+        :placeholder="appStore.siteContent?.settings_language || 'Select language'"
         editable
         class="dropdown-white-bg"
       />
