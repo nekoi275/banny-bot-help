@@ -18,13 +18,16 @@ export const useAppStore = defineStore("app", () => {
   const modelNames = computed(() => models.value.map((model) => model.name));
 
   const tabHeaders = computed(() => {
-    if (!siteContent.value) return ["Description", "Models", "Settings"];
+    if (!siteContent.value) return ["Profile", "Description", "Models", "Settings"];
     return [
       siteContent.value.menu_main,
       siteContent.value.menu_models,
       siteContent.value.menu_settings,
+      siteContent.value.menu_profile,
     ];
   });
+
+  const languages = ["Русский", "Українська", "English", "Español", "Français", "Português", "Deutsch", "Italiano", "Türkçe", "Polski", "中文", "हिन्दी", "العربية", "বাংলা", "日本語", "한국어", "Tiếng Việt", "ไทย"]
 
   const modes = computed(() => {
     if (!siteContent.value) {
@@ -134,6 +137,7 @@ export const useAppStore = defineStore("app", () => {
     selectedModel,
     userId,
     userLang,
+    languages,
 
     // Геттеры
     modelNames,

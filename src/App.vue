@@ -30,7 +30,7 @@ onMounted(async () => {
 
 <template>
   <TabView>
-    <TabPanel header="Profile">
+    <TabPanel :header="appStore.tabHeaders[3]">
       <UserProfile/>
     </TabPanel>
     <TabPanel :header="appStore.tabHeaders[0]">

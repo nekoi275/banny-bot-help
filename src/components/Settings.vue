@@ -1,31 +1,33 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, computed } from "vue";
-import InputNumber from 'primevue/inputnumber';
-import Dropdown from 'primevue/dropdown';
-import Button from 'primevue/button';
-import { useToast } from 'primevue/usetoast';
-import { useAppStore } from '@/stores/appStore';
+import InputNumber from "primevue/inputnumber";
+import Dropdown from "primevue/dropdown";
+import Button from "primevue/button";
+import { useToast } from "primevue/usetoast";
+import { useAppStore } from "@/stores/appStore";
 import { type UserSettings } from "@/utils/types";
 
 const toast = useToast();
 const appStore = useAppStore();
 
-const emit = defineEmits(['update:settings']);
+const emit = defineEmits(["update:settings"]);
 
 const localSettings = ref<UserSettings>({
   width: appStore.user?.settings?.width || 512,
   height: appStore.user?.settings?.height || 512,
-  mode: appStore.user?.settings?.mode || appStore.modes[0]?.value || 'RP',
-  model: appStore.user?.settings?.model || appStore.modelNames[0] || '',
+  mode: appStore.user?.settings?.mode || appStore.modes[0]?.value || "RP",
+  model: appStore.user?.settings?.model || appStore.modelNames[0] || "",
   seed: appStore.user?.settings?.seed || null,
-  steps: appStore.user?.settings?.steps || 20
+  steps: appStore.user?.settings?.steps || 20,
+  lang: appStore.user?.settings?.lang || "",
 });
 
 // Добавляем вычисляемое свойство для текущего разрешения
 const currentResolution = computed(() => {
-  return appStore.resolutions.find(res => 
-    res.value[0] === localSettings.value.width && 
-    res.value[1] === localSettings.value.height
+  return appStore.resolutions.find(
+    (res) =>
+      res.value[0] === localSettings.value.width &&
+      res.value[1] === localSettings.value.height
   );
 });
 
@@ -36,22 +38,26 @@ onMounted(() => {
   }
 });
 
-watch(() => appStore.user?.settings, (newSettings) => {
-  if (newSettings) {
-    localSettings.value = { ...localSettings.value, ...newSettings };
-  }
-}, { deep: true });
+watch(
+  () => appStore.user?.settings,
+  (newSettings) => {
+    if (newSettings) {
+      localSettings.value = { ...localSettings.value, ...newSettings };
+    }
+  },
+  { deep: true }
+);
 
 const updateSettings = (key: keyof UserSettings, value: any) => {
   localSettings.value = { ...localSettings.value, [key]: value };
-  emit('update:settings', localSettings.value);
+  emit("update:settings", localSettings.value);
 };
 
 const swapDimensions = () => {
   const newWidth = localSettings.value.height;
   const newHeight = localSettings.value.width;
-  updateSettings('width', newWidth);
-  updateSettings('height', newHeight);
+  updateSettings("width", newWidth);
+  updateSettings("height", newHeight);
 };
 
 const validateDimension = (value: number) => {
@@ -60,20 +66,20 @@ const validateDimension = (value: number) => {
   return Math.floor(value / 64) * 64;
 };
 
-const incrementDimension = (dimension: 'width' | 'height') => {
+const incrementDimension = (dimension: "width" | "height") => {
   const newValue = Math.min(localSettings.value[dimension] + 64, 1920);
   updateSettings(dimension, newValue);
 };
 
-const decrementDimension = (dimension: 'width' | 'height') => {
+const decrementDimension = (dimension: "width" | "height") => {
   const newValue = Math.max(localSettings.value[dimension] - 64, 64);
   updateSettings(dimension, newValue);
 };
 
 const applyResolution = (value: number[]) => {
   if (value && value.length === 2) {
-    updateSettings('width', value[0]);
-    updateSettings('height', value[1]);
+    updateSettings("width", value[0]);
+    updateSettings("height", value[1]);
   }
 };
 
@@ -81,17 +87,15 @@ const saveSettings = async () => {
   try {
     await appStore.saveSettings(localSettings.value, appStore.userId);
     toast.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Settings saved successfully',
-      life: 3000
+      severity: "success",
+      summary: appStore.siteContent?.settings_success,
+      life: 3000,
     });
   } catch (error) {
     toast.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'Failed to save settings',
-      life: 3000
+      severity: "error",
+      summary: appStore.siteContent?.settings_fail,
+      life: 3000,
     });
   }
 };
@@ -100,7 +104,25 @@ const saveSettings = async () => {
 <template>
   <div class="settings-container p-fluid">
     <div class="field">
-      <label for="mode">{{ appStore.siteContent?.settings_mode || 'Mode' }}</label>
+      <label for="language">{{
+        appStore.siteContent?.settings_lang || "Language"
+      }}</label>
+      <Dropdown
+        id="language"
+        v-model="localSettings.lang"
+        :options="appStore.languages"
+        optionLabel=""
+        optionValue=""
+        @change="updateSettings('lang', $event.value)"
+        :placeholder="appStore.siteContent?.settings_lang || 'Select language'"
+        editable
+        class="dropdown-white-bg"
+      />
+    </div>
+    <div class="field">
+      <label for="mode">{{
+        appStore.siteContent?.settings_mode || "Mode"
+      }}</label>
       <Dropdown
         id="mode"
         v-model="localSettings.mode"
@@ -114,7 +136,9 @@ const saveSettings = async () => {
     </div>
 
     <div class="field">
-      <label for="model">{{ appStore.siteContent?.settings_model || 'Model' }}</label>
+      <label for="model">{{
+        appStore.siteContent?.settings_model || "Model"
+      }}</label>
       <Dropdown
         id="model"
         v-model="localSettings.model"
@@ -126,7 +150,9 @@ const saveSettings = async () => {
     </div>
 
     <div class="field">
-      <label for="resolution">{{ appStore.siteContent?.settings_resolution || 'Resolution Presets' }}</label>
+      <label for="resolution">{{
+        appStore.siteContent?.settings_resolution || "Resolution Presets"
+      }}</label>
       <Dropdown
         id="resolution"
         v-model="currentResolution"
@@ -134,21 +160,25 @@ const saveSettings = async () => {
         option-label="label"
         option-value="value"
         @change="applyResolution($event.value)"
-        :placeholder="appStore.siteContent?.settings_resolution || 'Select resolution'"
+        :placeholder="
+          appStore.siteContent?.settings_resolution || 'Select resolution'
+        "
         class="dropdown-white-bg"
       />
     </div>
 
     <div class="dimensions-vertical">
       <div class="dimension-group">
-        <label>{{ appStore.siteContent?.settings_height || 'Height' }}</label>
+        <label>{{ appStore.siteContent?.settings_height || "Height" }}</label>
         <div class="dimension-controls">
           <InputNumber
             v-model="localSettings.height"
             :min="64"
             :max="1920"
             :step="64"
-            @update:modelValue="(val: number) => updateSettings('height', validateDimension(val))"
+            @update:modelValue="
+              (val: number) => updateSettings('height', validateDimension(val))
+            "
             class="dimension-input"
           />
           <div class="dimension-buttons">
@@ -176,14 +206,16 @@ const saveSettings = async () => {
       />
 
       <div class="dimension-group">
-        <label>{{ appStore.siteContent?.settings_width || 'Width' }}</label>
+        <label>{{ appStore.siteContent?.settings_width || "Width" }}</label>
         <div class="dimension-controls">
           <InputNumber
             v-model="localSettings.width"
             :min="64"
             :max="1920"
             :step="64"
-            @update:modelValue="(val: number) => updateSettings('width', validateDimension(val))"
+            @update:modelValue="
+              (val: number) => updateSettings('width', validateDimension(val))
+            "
             class="dimension-input"
           />
           <div class="dimension-buttons">

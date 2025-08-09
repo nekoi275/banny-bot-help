@@ -42,6 +42,7 @@ export interface UserSettings {
   seed: string | null;
   steps: number;
   height: number;
+  lang: string;
 }
 
 export interface User {
@@ -81,6 +82,7 @@ export interface Content {
   menu_main: string;
   menu_models: string;
   menu_settings: string;
+  menu_profile: string;
   content_main: string[];
   settings_mode: string;
   settings_mode_RP: string;
@@ -91,4 +93,7 @@ export interface Content {
   settings_width: string;
   settings_height: string;
   settings_save: string;
+  settings_success: string;
+  settings_fail: string;
+  settings_language: string;
 }
