@@ -16,10 +16,6 @@ const appStore = useAppStore();
       <div class="grid p-fluid">
         <div class="col-12 md:col-6">
           <div class="field">
-            <span class="p-text-secondary"><strong>Quota:</strong></span>
-            {{ appStore.user?.quota }}
-          </div>
-          <div class="field">
             <span class="p-text-secondary"><strong>Balance:</strong></span>
             {{ appStore.user?.balance }}
           </div>
@@ -27,44 +23,47 @@ const appStore = useAppStore();
             <span class="p-text-secondary"><strong>User for:</strong></span>
             {{ appStore.user?.days }} days
           </div>
+          <div class="col-12 md:col-4">
+            <div class="field">
+              <span class="p-text-secondary"><strong>Language:</strong></span>
+              {{ appStore.user?.lang }}
+            </div>
+          </div>
+          <div class="col-12 md:col-4">
+            <div class="field">
+              <span class="p-text-secondary"><strong>Mode:</strong></span>
+              {{ appStore.user?.settings.mode }}
+            </div>
+          </div>
+          <div class="col-12 md:col-4">
+            <div class="field">
+              <span class="p-text-secondary"><strong>Resolution:</strong></span>
+              {{ appStore.user?.settings.width }}x{{
+                appStore.user?.settings.height
+              }}
+            </div>
+          </div>
+          <div class="col-12 md:col-4">
+            <div class="field">
+              <span class="p-text-secondary"><strong>Steps:</strong></span>
+              {{ appStore.user?.settings.steps }}
+            </div>
+          </div>
+          <div class="col-12 md:col-4">
+            <div class="field">
+              <span class="p-text-secondary"><strong>Model:</strong></span>
+              {{ appStore.user?.settings.model }}
+            </div>
+          </div>
+          <div class="col-12 md:col-4">
+            <div class="field">
+              <span class="p-text-secondary"><strong>Seed:</strong></span>
+              {{ appStore.user?.settings.seed || 'random' }}
+            </div>
+          </div>
         </div>
       </div>
-
-      <Divider />
-      <h3>Settings</h3>
-      <div class="grid p-fluid">
-        <div class="col-12 md:col-4">
-          <div class="field">
-            <span class="p-text-secondary"><strong>Language:</strong></span>
-            {{ appStore.user?.settings.lang }}
-          </div>
-        </div>
-        <div class="col-12 md:col-4">
-          <div class="field">
-            <span class="p-text-secondary"><strong>Mode:</strong></span>
-            {{ appStore.user?.settings.mode }}
-          </div>
-        </div>
-        <div class="col-12 md:col-4">
-          <div class="field">
-            <span class="p-text-secondary"><strong>Resolution:</strong></span>
-            {{ appStore.user?.settings.width }}x{{ appStore.user?.settings.height }}
-          </div>
-        </div>
-        <div class="col-12 md:col-4">
-          <div class="field">
-            <span class="p-text-secondary"><strong>Steps:</strong></span>
-            {{ appStore.user?.settings.steps }}
-          </div>
-        </div>
-        <div class="col-12 md:col-4">
-          <div class="field">
-            <span class="p-text-secondary"><strong>Model:</strong></span>
-            {{ appStore.user?.settings.model }}
-          </div>
-        </div>
-      </div>
-</template>
+    </template>
   </Card>
 </template>
 
