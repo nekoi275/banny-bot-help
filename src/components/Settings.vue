@@ -98,9 +98,9 @@ const saveSettings = async () => {
   }
 };
 
-const resetSettings = async () => {
+const reset = async () => {
   try {
-    await appStore.resetSettings(appStore.userId);
+    await appStore.reset(appStore.userId);
     toast.add({
       severity: "success",
       summary: appStore.siteContent?.settings_success,
@@ -118,6 +118,13 @@ const resetSettings = async () => {
 
 <template>
   <div class="settings-container p-fluid">
+    <div class="buttons-container">
+      <Button
+        :label="appStore.siteContent?.settings_reset"
+        @click="reset"
+        class="p-button-outlined reset-button"
+      />
+    </div>
     <div class="field">
       <label for="language">{{
         appStore.siteContent?.settings_lang
@@ -258,11 +265,6 @@ const resetSettings = async () => {
 
     <div class="buttons-container">
       <Button
-        :label="appStore.siteContent?.settings_reset"
-        @click="resetSettings"
-        class="p-button-outlined reset-button"
-      />
-      <Button
         :label="appStore.siteContent?.settings_save"
         @click="saveSettings"
         class="save-button"
@@ -335,9 +337,8 @@ const resetSettings = async () => {
 
 .buttons-container {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
 }
 
 .reset-button {

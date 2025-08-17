@@ -191,7 +191,7 @@ export const useAppStore = defineStore("app", () => {
     }
   }
 
-  async function resetSettings(id: number) {
+  async function reset(id: number) {
     try {
       const response = await fetch(`${BASEURL}/user/${id}/reset`, {
         method: "POST",
@@ -226,6 +226,6 @@ export const useAppStore = defineStore("app", () => {
     // Действия
     fetchInitialData,
     saveSettings,
-    resetSettings
+    reset
   };
 });
