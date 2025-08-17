@@ -1,6 +1,12 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import type { Model, User, UserData, Content, UserSettings } from "@/utils/types";
+import type {
+  Model,
+  User,
+  UserData,
+  Content,
+  UserSettings,
+} from "@/utils/types";
 
 const BASEURL =
   "https://a3eqyxqi6gfrg3nhw4v3rl6q4m0gtpqi.lambda-url.eu-west-1.on.aws";
@@ -12,13 +18,13 @@ export const useAppStore = defineStore("app", () => {
   const siteContent = ref<Content>();
   const selectedModel = ref<string | null>(null);
   const userId = ref<number>(301507567); // тестовый юзер
-  const userLang = ref<string>("ru"); // тестовый язык
 
   // Геттеры
   const modelNames = computed(() => models.value.map((model) => model.name));
 
   const tabHeaders = computed(() => {
-    if (!siteContent.value) return ["Profile", "Description", "Models", "Settings"];
+    if (!siteContent.value)
+      return ["Profile", "Description", "Models", "Settings"];
     return [
       siteContent.value.menu_main,
       siteContent.value.menu_models,
@@ -27,7 +33,65 @@ export const useAppStore = defineStore("app", () => {
     ];
   });
 
-  const languages = ["Русский", "Українська", "English", "Español", "Français", "Português", "Deutsch", "Italiano", "Türkçe", "Polski", "中文", "हिन्दी", "العربية", "বাংলা", "日本語", "한국어", "Tiếng Việt", "ไทย"]
+  const languages = [
+    "🇷🇺 Русский",
+    "🇺🇸 English",
+    "🇺🇦 Українська",
+    "🇧🇾 Беларуская",
+    "🇧🇬 Български",
+    "🇷🇸 Српски",
+    "🇪🇸 Español",
+    "🇫🇷 Français",
+    "🇮🇹 Italiano",
+    "🇵🇹 Português",
+    "🇩🇪 Deutsch",
+    "🇹🇷 Türkçe",
+    "🇷🇴 Română",
+    "🇵🇱 Polski",
+    "🇬🇷 Νέα Ελληνικά",
+    "🇬🇪 ქართული",
+    "🇨🇳 中文",
+    "🇮🇳 हिन्दी",
+    "🇸🇦 العربية",
+    "🇧🇩 বাংলা",
+    "🇯🇵 日本語",
+    "🇰🇷 한국어",
+    "🇻🇳 Tiếng Việt",
+    "🇹🇭 ไทย",
+    "🇲🇲 မြန်မာစာ",
+  ];
+  const languageCodes = [
+    "ru",
+    "en",
+    "uk",
+    "be",
+    "bg",
+    "sr",
+    "es",
+    "fr",
+    "it",
+    "pt",
+    "de",
+    "tr",
+    "ro",
+    "pl",
+    "el",
+    "ka",
+    "zh",
+    "hi",
+    "ar",
+    "bn",
+    "ja",
+    "ko",
+    "vi",
+    "th",
+    "my",
+  ];
+
+  const languageObjects = languages.map((lang, index) => ({
+    label: lang,
+    value: languageCodes[index],
+  }));
 
   const modes = computed(() => {
     if (!siteContent.value) {
@@ -94,10 +158,8 @@ export const useAppStore = defineStore("app", () => {
 
   async function fetchInitialData() {
     try {
-      const [userData, contentData] = await Promise.all([
-        fetchUserData(userId.value),
-        fetchContent(userLang.value)
-      ]);
+      const userData = await fetchUserData(userId.value);
+      const contentData = await fetchContent(userData.user.lang);
 
       user.value = userData.user;
       selectedModel.value = user.value.settings.model;
@@ -136,8 +198,7 @@ export const useAppStore = defineStore("app", () => {
     siteContent,
     selectedModel,
     userId,
-    userLang,
-    languages,
+    languageObjects,
 
     // Геттеры
     modelNames,

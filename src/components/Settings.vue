@@ -19,10 +19,9 @@ const localSettings = ref<UserSettings>({
   model: appStore.user?.settings?.model || appStore.modelNames[0] || "",
   seed: appStore.user?.settings?.seed || null,
   steps: appStore.user?.settings?.steps || 20,
-  lang: appStore.user?.settings?.lang || "",
+  lang: appStore.user?.lang || "",
 });
 
-// Добавляем вычисляемое свойство для текущего разрешения
 const currentResolution = computed(() => {
   return appStore.resolutions.find(
     (res) =>
@@ -31,7 +30,6 @@ const currentResolution = computed(() => {
   );
 });
 
-// Инициализация настроек при монтировании компонента
 onMounted(() => {
   if (appStore.user?.settings) {
     localSettings.value = { ...localSettings.value, ...appStore.user.settings };
@@ -110,12 +108,18 @@ const saveSettings = async () => {
       <Dropdown
         id="language"
         v-model="localSettings.lang"
-        :options="appStore.languages"
-        optionLabel=""
-        optionValue=""
+        :options="appStore.languageObjects"
+        optionLabel="label"
+        optionValue="value"
         @change="updateSettings('lang', $event.value)"
-        :placeholder="appStore.siteContent?.settings_language || 'Select language'"
+        :placeholder="
+          appStore.user?.lang ||
+          appStore.siteContent?.settings_language ||
+          'Select language'
+        "
         editable
+        filter
+        input
         class="dropdown-white-bg"
       />
     </div>
