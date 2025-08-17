@@ -16,28 +16,28 @@ const appStore = useAppStore();
       <div class="grid p-fluid">
         <div class="col-12 md:col-6">
           <div class="field">
-            <span class="p-text-secondary"><strong>Balance:</strong></span>
+            <span class="p-text-secondary"><strong>{{ appStore.siteContent?.profile_balance }}:</strong></span>
             {{ appStore.user?.balance }}
           </div>
           <div class="field">
-            <span class="p-text-secondary"><strong>User for:</strong></span>
-            {{ appStore.user?.days }} days
+            <span class="p-text-secondary"><strong>{{ appStore.siteContent?.profile_user_days }}:</strong></span>
+            {{ appStore.user?.days }}
           </div>
           <div class="col-12 md:col-4">
             <div class="field">
-              <span class="p-text-secondary"><strong>Language:</strong></span>
+              <span class="p-text-secondary"><strong>{{ appStore.siteContent?.settings_lang }}:</strong></span>
               {{ appStore.user?.lang }}
             </div>
           </div>
           <div class="col-12 md:col-4">
             <div class="field">
-              <span class="p-text-secondary"><strong>Mode:</strong></span>
+              <span class="p-text-secondary"><strong>{{ appStore.siteContent?.settings_mode }}:</strong></span>
               {{ appStore.user?.settings.mode }}
             </div>
           </div>
           <div class="col-12 md:col-4">
             <div class="field">
-              <span class="p-text-secondary"><strong>Resolution:</strong></span>
+              <span class="p-text-secondary"><strong>{{ appStore.siteContent?.settings_resolution }}:</strong></span>
               {{ appStore.user?.settings.width }}x{{
                 appStore.user?.settings.height
               }}
@@ -45,19 +45,19 @@ const appStore = useAppStore();
           </div>
           <div class="col-12 md:col-4">
             <div class="field">
-              <span class="p-text-secondary"><strong>Steps:</strong></span>
+              <span class="p-text-secondary"><strong>{{ appStore.siteContent?.settings_steps }}:</strong></span>
               {{ appStore.user?.settings.steps }}
             </div>
           </div>
           <div class="col-12 md:col-4">
             <div class="field">
-              <span class="p-text-secondary"><strong>Model:</strong></span>
+              <span class="p-text-secondary"><strong>{{ appStore.siteContent?.settings_model }}:</strong></span>
               {{ appStore.user?.settings.model }}
             </div>
           </div>
           <div class="col-12 md:col-4">
             <div class="field">
-              <span class="p-text-secondary"><strong>Seed:</strong></span>
+              <span class="p-text-secondary"><strong>{{ appStore.siteContent?.settings_seed }}:</strong></span>
               {{ appStore.user?.settings.seed || 'random' }}
             </div>
           </div>

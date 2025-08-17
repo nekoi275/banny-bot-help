@@ -191,6 +191,23 @@ export const useAppStore = defineStore("app", () => {
     }
   }
 
+  async function resetSettings(id: number) {
+    try {
+      const response = await fetch(`${BASEURL}/user/${id}/reset`, {
+        method: "POST",
+      });
+
+      if (!response.ok) throw new Error("Failed to reset settings");
+
+      user.value = (await fetchUserData(id)).user;
+      return true;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      throw error;
+    }
+  }
+
+
   return {
     // Состояния
     models,
@@ -209,5 +226,6 @@ export const useAppStore = defineStore("app", () => {
     // Действия
     fetchInitialData,
     saveSettings,
+    resetSettings
   };
 });

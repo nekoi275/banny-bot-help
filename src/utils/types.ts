@@ -97,5 +97,10 @@ export interface Content {
   settings_save: string;
   settings_success: string;
   settings_fail: string;
-  settings_language: string;
+  settings_lang: string;
+  settings_reset: string;
+  settings_steps: string;
+  settings_seed: string;
+  profile_balance: string;
+  profile_user_days: string;
 }

@@ -18,9 +18,6 @@ const initData = miniApp.initDataUnsafe;
 if (initData.user?.id) {
   appStore.userId = initData.user.id;
 }
-if (initData.user?.language_code) {
-  appStore.userLang = initData.user.language_code;
-}
 */
 
 onMounted(async () => {

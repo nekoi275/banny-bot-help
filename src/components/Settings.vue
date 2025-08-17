@@ -97,13 +97,30 @@ const saveSettings = async () => {
     });
   }
 };
+
+const resetSettings = async () => {
+  try {
+    await appStore.resetSettings(appStore.userId);
+    toast.add({
+      severity: "success",
+      summary: appStore.siteContent?.settings_success,
+      life: 3000,
+    });
+  } catch (error) {
+    toast.add({
+      severity: "error",
+      summary: appStore.siteContent?.settings_fail,
+      life: 3000,
+    });
+  }
+};
 </script>
 
 <template>
   <div class="settings-container p-fluid">
     <div class="field">
       <label for="language">{{
-        appStore.siteContent?.settings_lang || "Language"
+        appStore.siteContent?.settings_lang
       }}</label>
       <Dropdown
         id="language"
@@ -114,8 +131,7 @@ const saveSettings = async () => {
         @change="updateSettings('lang', $event.value)"
         :placeholder="
           appStore.user?.lang ||
-          appStore.siteContent?.settings_language ||
-          'Select language'
+          appStore.siteContent?.settings_language
         "
         editable
         filter
@@ -125,7 +141,7 @@ const saveSettings = async () => {
     </div>
     <div class="field">
       <label for="mode">{{
-        appStore.siteContent?.settings_mode || "Mode"
+        appStore.siteContent?.settings_mode
       }}</label>
       <Dropdown
         id="mode"
@@ -134,28 +150,28 @@ const saveSettings = async () => {
         option-label="label"
         option-value="value"
         @change="updateSettings('mode', $event.value)"
-        :placeholder="appStore.siteContent?.settings_mode || 'Select mode'"
+        :placeholder="appStore.siteContent?.settings_mode"
         class="dropdown-white-bg"
       />
     </div>
 
     <div class="field">
       <label for="model">{{
-        appStore.siteContent?.settings_model || "Model"
+        appStore.siteContent?.settings_model
       }}</label>
       <Dropdown
         id="model"
         v-model="localSettings.model"
         :options="appStore.modelNames"
         @change="updateSettings('model', $event.value)"
-        :placeholder="appStore.siteContent?.settings_model || 'Select model'"
+        :placeholder="appStore.siteContent?.settings_model"
         class="dropdown-white-bg"
       />
     </div>
 
     <div class="field">
       <label for="resolution">{{
-        appStore.siteContent?.settings_resolution || "Resolution Presets"
+        appStore.siteContent?.settings_resolution
       }}</label>
       <Dropdown
         id="resolution"
@@ -165,7 +181,7 @@ const saveSettings = async () => {
         option-value="value"
         @change="applyResolution($event.value)"
         :placeholder="
-          appStore.siteContent?.settings_resolution || 'Select resolution'
+          appStore.siteContent?.settings_resolution
         "
         class="dropdown-white-bg"
       />
@@ -173,7 +189,7 @@ const saveSettings = async () => {
 
     <div class="dimensions-vertical">
       <div class="dimension-group">
-        <label>{{ appStore.siteContent?.settings_height || "Height" }}</label>
+        <label>{{ appStore.siteContent?.settings_height }}</label>
         <div class="dimension-controls">
           <InputNumber
             v-model="localSettings.height"
@@ -210,7 +226,7 @@ const saveSettings = async () => {
       />
 
       <div class="dimension-group">
-        <label>{{ appStore.siteContent?.settings_width || "Width" }}</label>
+        <label>{{ appStore.siteContent?.settings_width }}</label>
         <div class="dimension-controls">
           <InputNumber
             v-model="localSettings.width"
@@ -240,11 +256,18 @@ const saveSettings = async () => {
       </div>
     </div>
 
-    <Button
-      :label="appStore.siteContent?.settings_save || 'Save'"
-      @click="saveSettings"
-      class="save-button"
-    />
+    <div class="buttons-container">
+      <Button
+        :label="appStore.siteContent?.settings_reset"
+        @click="resetSettings"
+        class="p-button-outlined reset-button"
+      />
+      <Button
+        :label="appStore.siteContent?.settings_save"
+        @click="saveSettings"
+        class="save-button"
+      />
+    </div>
   </div>
 </template>
 
@@ -298,11 +321,6 @@ const saveSettings = async () => {
   padding: 0.25rem 1rem;
 }
 
-.save-button {
-  margin-top: 1rem;
-  align-self: flex-end;
-}
-
 .dropdown-white-bg .p-dropdown-panel {
   background: white;
 }
@@ -313,5 +331,16 @@ const saveSettings = async () => {
 
 .dropdown-white-bg .p-dropdown-items .p-dropdown-item:hover {
   background: #f5f5f5;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.reset-button {
+  margin-right: auto;
 }
 </style>
