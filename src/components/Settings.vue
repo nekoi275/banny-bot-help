@@ -138,7 +138,7 @@ const reset = async () => {
         @change="updateSettings('lang', $event.value)"
         :placeholder="
           appStore.user?.lang ||
-          appStore.siteContent?.settings_language
+          appStore.siteContent?.settings_lang
         "
         editable
         filter
