@@ -39,7 +39,7 @@ export interface UserSettings {
   width: number;
   mode: string;
   model: string | null;
-  seed: string | null;
+  seed: number | null;
   steps: number;
   height: number;
   lang: string;

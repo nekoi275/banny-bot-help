@@ -114,6 +114,10 @@ const reset = async () => {
     });
   }
 };
+
+const generateRandomSeed = () => {
+  return Math.floor(Math.random() * 1000000)
+};
 </script>
 
 <template>
@@ -126,9 +130,7 @@ const reset = async () => {
       />
     </div>
     <div class="field">
-      <label for="language">{{
-        appStore.siteContent?.settings_lang
-      }}</label>
+      <label for="language">{{ appStore.siteContent?.settings_lang }}</label>
       <Dropdown
         id="language"
         v-model="localSettings.lang"
@@ -137,8 +139,7 @@ const reset = async () => {
         optionValue="value"
         @change="updateSettings('lang', $event.value)"
         :placeholder="
-          appStore.user?.lang ||
-          appStore.siteContent?.settings_lang
+          appStore.user?.lang || appStore.siteContent?.settings_lang
         "
         editable
         filter
@@ -147,9 +148,7 @@ const reset = async () => {
       />
     </div>
     <div class="field">
-      <label for="mode">{{
-        appStore.siteContent?.settings_mode
-      }}</label>
+      <label for="mode">{{ appStore.siteContent?.settings_mode }}</label>
       <Dropdown
         id="mode"
         v-model="localSettings.mode"
@@ -163,9 +162,7 @@ const reset = async () => {
     </div>
 
     <div class="field">
-      <label for="model">{{
-        appStore.siteContent?.settings_model
-      }}</label>
+      <label for="model">{{ appStore.siteContent?.settings_model }}</label>
       <Dropdown
         id="model"
         v-model="localSettings.model"
@@ -187,9 +184,7 @@ const reset = async () => {
         option-label="label"
         option-value="value"
         @change="applyResolution($event.value)"
-        :placeholder="
-          appStore.siteContent?.settings_resolution
-        "
+        :placeholder="appStore.siteContent?.settings_resolution"
         class="dropdown-white-bg"
       />
     </div>
@@ -259,6 +254,68 @@ const reset = async () => {
               :disabled="localSettings.width <= 64"
             />
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>{{ appStore.siteContent?.settings_steps }}</label>
+      <div class="dimension-controls">
+        <InputNumber
+          v-model="localSettings.steps"
+          :min="1"
+          :max="50"
+          :step="1"
+          @update:modelValue="(val: number) => updateSettings('steps', val)"
+          class="dimension-input"
+        />
+        <div class="dimension-buttons">
+          <Button
+            label="+"
+            @click="
+              updateSettings('steps', Math.min(localSettings.steps + 1, 50))
+            "
+            class="p-button-text dimension-button"
+            :disabled="localSettings.steps >= 50"
+          />
+          <Button
+            label="-"
+            @click="
+              updateSettings('steps', Math.max(localSettings.steps - 1, 1))
+            "
+            class="p-button-text dimension-button"
+            :disabled="localSettings.steps <= 1"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>{{ appStore.siteContent?.settings_seed }}</label>
+      <div class="dimension-controls">
+        <InputNumber
+          v-model="localSettings.seed"
+          mode="decimal"
+          :min="1"
+          :max="Number.MAX_SAFE_INTEGER"
+          :step="1"
+          :useGrouping="false"
+          @update:modelValue="
+            (val: number | null) => updateSettings('seed', val)
+          "
+          class="dimension-input"
+        />
+        <div class="dimension-buttons">
+          <Button
+            label="&#127922"
+            @click="updateSettings('seed', generateRandomSeed())"
+            class="p-button-text dimension-button"
+          />
+          <Button
+            label="❌"
+            @click="updateSettings('seed', null)"
+            class="p-button-text dimension-button"
+          />
         </div>
       </div>
     </div>
