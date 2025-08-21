@@ -4,6 +4,7 @@ import InputNumber from "primevue/inputnumber";
 import Dropdown from "primevue/dropdown";
 import Button from "primevue/button";
 import Slider from "primevue/slider";
+import Textarea from "primevue/textarea";
 import { useToast } from "primevue/usetoast";
 import { useAppStore } from "@/stores/appStore";
 import { type UserSettings } from "@/utils/types";
@@ -12,6 +13,7 @@ const toast = useToast();
 const appStore = useAppStore();
 
 const emit = defineEmits(["update:settings"]);
+const showAdvancedSettings = ref(false);
 
 const localSettings = ref<UserSettings>({
   width: appStore.user?.settings?.width || 512,
@@ -312,6 +314,16 @@ const updateCfg = (value: number) => {
       <div class="slider-value">{{ localSettings.cfg }}</div>
     </div>
   </div>
+  <div class="field">
+  <label>{{ appStore.siteContent?.settings_negative }}</label>
+  <Textarea
+    v-model="localSettings.negative"
+    :placeholder="appStore.siteContent?.settings_negative"
+    rows="3"
+    autoResize
+    class="negative-prompt-textarea"
+  />
+</div>
 
     <div class="buttons-container">
       <Button
@@ -324,6 +336,9 @@ const updateCfg = (value: number) => {
 </template>
 
 <style scoped>
+.w-full {
+  width: 100%;
+}
 .settings-container {
   display: flex;
   flex-direction: column;
@@ -407,4 +422,10 @@ const updateCfg = (value: number) => {
   height: 1.2rem;
 }
 
+.negative-prompt-textarea {
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  resize: none;
+}
 </style>
