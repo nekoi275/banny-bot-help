@@ -241,90 +241,114 @@ const updateCfg = (value: number) => {
   </div>
     </div>
 
-    <div class="field">
-      <label>{{ appStore.siteContent?.settings_steps }}</label>
-      <div class="dimension-controls">
-        <InputNumber
-          v-model="localSettings.steps"
-          :min="1"
-          :max="50"
-          :step="1"
-          @update:modelValue="(val: number) => updateSettings('steps', val)"
-          class="dimension-input"
-        />
-        <div class="dimension-buttons">
-          <Button
-            label="+"
-            @click="
-              updateSettings('steps', Math.min(localSettings.steps + 1, 50))
-            "
-            class="p-button-text dimension-button"
-            :disabled="localSettings.steps >= 50"
-          />
-          <Button
-            label="-"
-            @click="
-              updateSettings('steps', Math.max(localSettings.steps - 1, 1))
-            "
-            class="p-button-text dimension-button"
-            :disabled="localSettings.steps <= 1"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="field">
-      <label>{{ appStore.siteContent?.settings_seed }}</label>
-      <div class="dimension-controls">
-        <InputNumber
-          v-model="localSettings.seed"
-          mode="decimal"
-          :min="1"
-          :max="Number.MAX_SAFE_INTEGER"
-          :step="1"
-          :useGrouping="false"
-          @update:modelValue="
-            (val: number | null) => updateSettings('seed', val)
-          "
-          class="dimension-input"
-        />
-        <div class="dimension-buttons">
-          <Button
-            label="&#127922"
-            @click="updateSettings('seed', generateRandomSeed())"
-            class="p-button-text dimension-button"
-          />
-          <Button
-            label="❌"
-            @click="updateSettings('seed', null)"
-            class="p-button-text dimension-button"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="field">
-    <label>{{ appStore.siteContent?.settings_cfg || 'CFG Scale' }}</label>
-    <div class="slider-container">
-      <Slider
-        v-model="localSettings.cfg"
-        :min="1"
-        :max="14"
-        @change="updateCfg"
-        class="slider-cfg"
-      />
-      <div class="slider-value">{{ localSettings.cfg }}</div>
-    </div>
-  </div>
-  <div class="field">
-  <label>{{ appStore.siteContent?.settings_negative }}</label>
-  <Textarea
-    v-model="localSettings.negative"
-    :placeholder="appStore.siteContent?.settings_negative"
-    rows="3"
-    autoResize
-    class="negative-prompt-textarea"
-  />
-</div>
+    <Button 
+      v-if="!showAdvancedSettings"
+      label="▼"
+      @click="showAdvancedSettings = true"
+      class="p-button-text"
+      icon="pi pi-angle-down"
+    />
 
+    <div v-if="showAdvancedSettings">
+      <Button 
+        label="▲"
+        @click="showAdvancedSettings = false"
+        class="p-button-text"
+        icon="pi pi-angle-up"
+      />
+
+      <div class="field">
+        <label>{{ appStore.siteContent?.settings_steps }}</label>
+        <div class="dimension-controls">
+          <InputNumber
+            v-model="localSettings.steps"
+            :min="1"
+            :max="50"
+            :step="1"
+            @update:modelValue="(val: number) => updateSettings('steps', val)"
+            class="dimension-input"
+          />
+          <div class="dimension-buttons">
+            <Button
+              label="+"
+              @click="
+                updateSettings('steps', Math.min(localSettings.steps + 1, 50))
+              "
+              class="p-button-text dimension-button"
+              :disabled="localSettings.steps >= 50"
+            />
+            <Button
+              label="-"
+              @click="
+                updateSettings('steps', Math.max(localSettings.steps - 1, 1))
+              "
+              class="p-button-text dimension-button"
+              :disabled="localSettings.steps <= 1"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Seed Field -->
+      <div class="field">
+        <label>{{ appStore.siteContent?.settings_seed }}</label>
+        <div class="dimension-controls">
+          <InputNumber
+            v-model="localSettings.seed"
+            mode="decimal"
+            :min="1"
+            :max="Number.MAX_SAFE_INTEGER"
+            :step="1"
+            :useGrouping="false"
+            @update:modelValue="
+              (val: number | null) => updateSettings('seed', val)
+            "
+            class="dimension-input"
+          />
+          <div class="dimension-buttons">
+            <Button
+              label="&#127922"
+              @click="updateSettings('seed', generateRandomSeed())"
+              class="p-button-text dimension-button"
+            />
+            <Button
+              label="❌"
+              @click="updateSettings('seed', null)"
+              class="p-button-text dimension-button"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- CFG Field -->
+      <div class="field">
+        <label>{{ appStore.siteContent?.settings_cfg || 'CFG Scale' }}</label>
+        <div class="slider-container">
+          <Slider
+            v-model="localSettings.cfg"
+            :min="1"
+            :max="14"
+            @change="updateCfg"
+            class="slider-cfg"
+          />
+          <div class="slider-value">{{ localSettings.cfg }}</div>
+        </div>
+      </div>
+
+      <!-- Negative Prompt Field -->
+      <div class="field">
+        <label>{{ appStore.siteContent?.settings_negative }}</label>
+        <Textarea
+          v-model="localSettings.negative"
+          :placeholder="appStore.siteContent?.settings_negative"
+          rows="3"
+          autoResize
+          class="negative-prompt-textarea"
+        />
+      </div>
+    </div>
+
+    <!-- Save Button -->
     <div class="buttons-container">
       <Button
         :label="appStore.siteContent?.settings_save"
