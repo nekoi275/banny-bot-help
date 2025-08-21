@@ -3,6 +3,7 @@ import { ref, watch, onMounted, computed } from "vue";
 import InputNumber from "primevue/inputnumber";
 import Dropdown from "primevue/dropdown";
 import Button from "primevue/button";
+import Slider from "primevue/slider";
 import { useToast } from "primevue/usetoast";
 import { useAppStore } from "@/stores/appStore";
 import { type UserSettings } from "@/utils/types";
@@ -20,6 +21,8 @@ const localSettings = ref<UserSettings>({
   seed: appStore.user?.settings?.seed || null,
   steps: appStore.user?.settings?.steps || 20,
   lang: appStore.user?.lang || "",
+  negative: appStore.user?.settings?.negative || "",
+  cfg: appStore.user?.settings.cfg || 7
 });
 
 const currentResolution = computed(() => {
@@ -101,6 +104,10 @@ const saveSettings = async () => {
 const generateRandomSeed = () => {
   return Math.floor(Math.random() * 1000000)
 };
+
+const updateCfg = (value: number) => {
+  updateSettings('cfg', value);
+};
 </script>
 
 <template>
@@ -136,7 +143,6 @@ const generateRandomSeed = () => {
         class="dropdown-white-bg"
       />
     </div>
-
     <div class="field">
       <label for="model">{{ appStore.siteContent?.settings_model }}</label>
       <Dropdown
@@ -148,7 +154,6 @@ const generateRandomSeed = () => {
         class="dropdown-white-bg"
       />
     </div>
-
     <div class="field">
       <label for="resolution">{{
         appStore.siteContent?.settings_resolution
@@ -232,7 +237,7 @@ const generateRandomSeed = () => {
       </div>
     </div>
   </div>
-</div>
+    </div>
 
     <div class="field">
       <label>{{ appStore.siteContent?.settings_steps }}</label>
@@ -265,7 +270,6 @@ const generateRandomSeed = () => {
         </div>
       </div>
     </div>
-
     <div class="field">
       <label>{{ appStore.siteContent?.settings_seed }}</label>
       <div class="dimension-controls">
@@ -295,6 +299,19 @@ const generateRandomSeed = () => {
         </div>
       </div>
     </div>
+    <div class="field">
+    <label>{{ appStore.siteContent?.settings_cfg || 'CFG Scale' }}</label>
+    <div class="slider-container">
+      <Slider
+        v-model="localSettings.cfg"
+        :min="1"
+        :max="14"
+        @change="updateCfg"
+        class="slider-cfg"
+      />
+      <div class="slider-value">{{ localSettings.cfg }}</div>
+    </div>
+  </div>
 
     <div class="buttons-container">
       <Button
@@ -371,8 +388,23 @@ const generateRandomSeed = () => {
   justify-content: flex-start;
   margin-bottom: 1rem;
 }
-
-.reset-button {
-  margin-right: auto;
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
 }
+
+.slider-cfg {
+  width: 100%;
+  max-width: 400px; /* Match other field widths */
+}
+
+.slider-cfg ::v-deep(.p-slider-handle) {
+  background: #3b82f6;
+  border: 2px solid white;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
 </style>

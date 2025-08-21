@@ -43,6 +43,8 @@ export interface UserSettings {
   steps: number;
   height: number;
   lang: string;
+  negative: string;
+  cfg: number;
 }
 
 export interface User {
@@ -101,6 +103,8 @@ export interface Content {
   settings_reset: string;
   settings_steps: string;
   settings_seed: string;
+  settings_negative: string;
+  settings_cfg: string;
   profile_balance: string;
   profile_user_days: string;
 }
