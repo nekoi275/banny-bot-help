@@ -98,23 +98,6 @@ const saveSettings = async () => {
   }
 };
 
-const reset = async () => {
-  try {
-    await appStore.reset(appStore.userId);
-    toast.add({
-      severity: "success",
-      summary: appStore.siteContent?.settings_success,
-      life: 3000,
-    });
-  } catch (error) {
-    toast.add({
-      severity: "error",
-      summary: appStore.siteContent?.settings_fail,
-      life: 3000,
-    });
-  }
-};
-
 const generateRandomSeed = () => {
   return Math.floor(Math.random() * 1000000)
 };
@@ -122,13 +105,6 @@ const generateRandomSeed = () => {
 
 <template>
   <div class="settings-container p-fluid">
-    <div class="buttons-container">
-      <Button
-        :label="appStore.siteContent?.settings_reset"
-        @click="reset"
-        class="p-button-outlined reset-button"
-      />
-    </div>
     <div class="field">
       <label for="language">{{ appStore.siteContent?.settings_lang }}</label>
       <Dropdown
@@ -189,74 +165,74 @@ const generateRandomSeed = () => {
       />
     </div>
 
-    <div class="dimensions-vertical">
-      <div class="dimension-group">
-        <label>{{ appStore.siteContent?.settings_height }}</label>
-        <div class="dimension-controls">
-          <InputNumber
-            v-model="localSettings.height"
-            :min="64"
-            :max="1920"
-            :step="64"
-            @update:modelValue="
-              (val: number) => updateSettings('height', validateDimension(val))
-            "
-            class="dimension-input"
-          />
-          <div class="dimension-buttons">
-            <Button
-              label="+"
-              @click="incrementDimension('height')"
-              class="p-button-text dimension-button"
-              :disabled="localSettings.height >= 1920"
-            />
-            <Button
-              label="-"
-              @click="decrementDimension('height')"
-              class="p-button-text dimension-button"
-              :disabled="localSettings.height <= 64"
-            />
-          </div>
-        </div>
-      </div>
-
-      <Button
-        label="⇅"
-        @click="swapDimensions"
-        class="swap-button p-button-text"
-        aria-label="Swap dimensions"
+    <div class="dimensions-single-line">
+  <div class="dimension-group">
+    <label>{{ appStore.siteContent?.settings_width }}</label>
+    <div class="dimension-controls">
+      <InputNumber
+        v-model="localSettings.width"
+        :min="64"
+        :max="1920"
+        :step="64"
+        @update:modelValue="
+          (val: number) => updateSettings('width', validateDimension(val))
+        "
+        class="compact-input"
       />
-
-      <div class="dimension-group">
-        <label>{{ appStore.siteContent?.settings_width }}</label>
-        <div class="dimension-controls">
-          <InputNumber
-            v-model="localSettings.width"
-            :min="64"
-            :max="1920"
-            :step="64"
-            @update:modelValue="
-              (val: number) => updateSettings('width', validateDimension(val))
-            "
-            class="dimension-input"
-          />
-          <div class="dimension-buttons">
-            <Button
-              label="+"
-              @click="incrementDimension('width')"
-              class="p-button-text dimension-button"
-              :disabled="localSettings.width >= 1920"
-            />
-            <Button
-              label="-"
-              @click="decrementDimension('width')"
-              class="p-button-text dimension-button"
-              :disabled="localSettings.width <= 64"
-            />
-          </div>
-        </div>
+      <div class="dimension-buttons">
+        <Button
+          label="+"
+          @click="incrementDimension('width')"
+          class="p-button-text dimension-button"
+          :disabled="localSettings.width >= 1920"
+        />
+        <Button
+          label="-"
+          @click="decrementDimension('width')"
+          class="p-button-text dimension-button"
+          :disabled="localSettings.width <= 64"
+        />
       </div>
     </div>
+  </div>
+
+  <Button
+    label="&#x21c6;"
+    @click="swapDimensions"
+    class="swap-button p-button-text"
+    aria-label="Swap dimensions"
+  />
+
+  <div class="dimension-group">
+    <label>{{ appStore.siteContent?.settings_height }}</label>
+    <div class="dimension-controls">
+      <InputNumber
+        v-model="localSettings.height"
+        :min="64"
+        :max="1920"
+        :step="64"
+        @update:modelValue="
+          (val: number) => updateSettings('height', validateDimension(val))
+        "
+        class="compact-input"
+      />
+      <div class="dimension-buttons">
+        <Button
+          label="+"
+          @click="incrementDimension('height')"
+          class="p-button-text dimension-button"
+          :disabled="localSettings.height >= 1920"
+        />
+        <Button
+          label="-"
+          @click="decrementDimension('height')"
+          class="p-button-text dimension-button"
+          :disabled="localSettings.height <= 64"
+        />
+      </div>
+    </div>
+  </div>
+</div>
 
     <div class="field">
       <label>{{ appStore.siteContent?.settings_steps }}</label>
@@ -334,14 +310,15 @@ const generateRandomSeed = () => {
 .settings-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.7rem;
   max-width: 400px;
 }
 
-.dimensions-vertical {
+.dimensions-single-line {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
 }
 
 .dimension-group {
@@ -352,12 +329,12 @@ const generateRandomSeed = () => {
 
 .dimension-controls {
   display: flex;
-  align-items: center;
   gap: 0.25rem;
+  align-items: center;
 }
 
-.dimension-input {
-  flex: 1;
+.compact-input {
+  width: 80px;
 }
 
 .dimension-buttons {
@@ -374,12 +351,9 @@ const generateRandomSeed = () => {
 }
 
 .swap-button {
-  margin: 0.25rem 0;
+  margin: 0 0.5rem;
   font-size: 1.25rem;
-  align-self: center;
-  padding: 0.25rem 1rem;
 }
-
 .dropdown-white-bg .p-dropdown-panel {
   background: white;
 }
