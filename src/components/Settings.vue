@@ -104,11 +104,19 @@ const saveSettings = async () => {
 };
 
 const generateRandomSeed = () => {
-  return Math.floor(Math.random() * 1000000)
+  return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
 };
 
 const updateCfg = (value: number) => {
   updateSettings('cfg', value);
+};
+
+const incrementCfg = () => {
+  updateSettings('cfg', Math.min(localSettings.value.cfg + 1, 14));
+};
+
+const decrementCfg = () => {
+  updateSettings('cfg', Math.max(localSettings.value.cfg - 1, 1));
 };
 </script>
 
@@ -257,38 +265,6 @@ const updateCfg = (value: number) => {
         icon="pi pi-angle-up"
       />
 
-      <div class="field">
-        <label>{{ appStore.siteContent?.settings_steps }}</label>
-        <div class="dimension-controls">
-          <InputNumber
-            v-model="localSettings.steps"
-            :min="1"
-            :max="50"
-            :step="1"
-            @update:modelValue="(val: number) => updateSettings('steps', val)"
-            class="dimension-input"
-          />
-          <div class="dimension-buttons">
-            <Button
-              label="+"
-              @click="
-                updateSettings('steps', Math.min(localSettings.steps + 1, 50))
-              "
-              class="p-button-text dimension-button"
-              :disabled="localSettings.steps >= 50"
-            />
-            <Button
-              label="-"
-              @click="
-                updateSettings('steps', Math.max(localSettings.steps - 1, 1))
-              "
-              class="p-button-text dimension-button"
-              :disabled="localSettings.steps <= 1"
-            />
-          </div>
-        </div>
-      </div>
-
       <!-- Seed Field -->
       <div class="field">
         <label>{{ appStore.siteContent?.settings_seed }}</label>
@@ -320,20 +296,65 @@ const updateCfg = (value: number) => {
         </div>
       </div>
 
+      <div class="settings-line">
+      <!-- Steps Field -->
+      <div class="field">
+        <label>{{ appStore.siteContent?.settings_steps }}</label>
+        <div class="dimension-controls">
+          <InputNumber
+            v-model="localSettings.steps"
+            :min="1"
+            :max="50"
+            :step="1"
+            @update:modelValue="(val: number) => updateSettings('steps', val)"
+            class="dimension-input"
+          />
+          <div class="dimension-buttons">
+            <Button
+              label="+"
+              @click="updateSettings('steps', Math.min(localSettings.steps + 1, 50))"
+              class="p-button-text dimension-button"
+              :disabled="localSettings.steps >= 50"
+            />
+            <Button
+              label="-"
+              @click="updateSettings('steps', Math.max(localSettings.steps - 1, 1))"
+              class="p-button-text dimension-button"
+              :disabled="localSettings.steps <= 1"
+            />
+          </div>
+        </div>
+      </div>
+
       <!-- CFG Field -->
       <div class="field">
         <label>{{ appStore.siteContent?.settings_cfg || 'CFG Scale' }}</label>
-        <div class="slider-container">
-          <Slider
+        <div class="dimension-controls">
+          <InputNumber
             v-model="localSettings.cfg"
             :min="1"
             :max="14"
-            @change="updateCfg"
-            class="slider-cfg"
+            :step="1"
+            @update:modelValue="(val: number) => updateSettings('cfg', val)"
+            class="dimension-input"
           />
-          <div class="slider-value">{{ localSettings.cfg }}</div>
+          <div class="dimension-buttons">
+            <Button
+              label="+"
+              @click="incrementCfg"
+              class="p-button-text dimension-button"
+              :disabled="localSettings.cfg >= 14"
+            />
+            <Button
+              label="-"
+              @click="decrementCfg"
+              class="p-button-text dimension-button"
+              :disabled="localSettings.cfg <= 1"
+            />
+          </div>
         </div>
       </div>
+    </div>
 
       <!-- Negative Prompt Field -->
       <div class="field">
@@ -451,5 +472,16 @@ const updateCfg = (value: number) => {
   max-height: 200px;
   overflow-y: auto;
   resize: none;
+}
+
+.settings-line {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.dimension-input {
+  width: 80px;
 }
 </style>
