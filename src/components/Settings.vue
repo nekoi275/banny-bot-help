@@ -89,6 +89,7 @@ const applyResolution = (value: number[]) => {
 const saveSettings = async () => {
   try {
     await appStore.saveSettings(localSettings.value, appStore.userId);
+    await appStore.calculateImageCost(localSettings.value);
     toast.add({
       severity: "success",
       summary: appStore.siteContent?.settings_success,
@@ -107,10 +108,6 @@ const generateRandomSeed = () => {
   return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
 };
 
-const updateCfg = (value: number) => {
-  updateSettings('cfg', value);
-};
-
 const incrementCfg = () => {
   updateSettings('cfg', Math.min(localSettings.value.cfg + 1, 14));
 };
@@ -122,6 +119,11 @@ const decrementCfg = () => {
 
 <template>
   <div class="settings-container p-fluid">
+    <div class="field">
+      <span class="p-text-secondary"
+      ><strong>{{ appStore.siteContent?.image_cost }}:</strong></span>
+          {{ appStore.imageCost }}
+    </div>
     <div class="field">
       <label for="language">{{ appStore.siteContent?.settings_lang }}</label>
       <Dropdown

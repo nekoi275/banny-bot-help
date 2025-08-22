@@ -22,6 +22,9 @@ if (initData.user?.id) {
 
 onMounted(async () => {
   await appStore.fetchInitialData();
+  if (appStore.user?.settings) {
+    await appStore.calculateImageCost(appStore.user.settings);
+  }
 });
 </script>
 

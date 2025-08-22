@@ -107,4 +107,5 @@ export interface Content {
   settings_cfg: string;
   profile_balance: string;
   profile_user_days: string;
+  image_cost: string;
 }

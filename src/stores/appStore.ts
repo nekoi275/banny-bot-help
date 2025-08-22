@@ -18,6 +18,7 @@ export const useAppStore = defineStore("app", () => {
   const siteContent = ref<Content>();
   const selectedModel = ref<string | null>(null);
   const userId = ref<number>(301507567); // тестовый юзер
+  const imageCost = ref<number>(0);
 
   // Геттеры
   const modelNames = computed(() => models.value.map((model) => model.name));
@@ -207,6 +208,27 @@ export const useAppStore = defineStore("app", () => {
     }
   }
 
+  async function calculateImageCost(settings: UserSettings) {
+    try {
+      const response = await fetch(`${BASEURL}/dry_run`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(settings),
+      });
+
+      const data = await response.json();
+
+      imageCost.value = data.kudos;
+
+      if (!response.ok) throw new Error("Failed to calculate image cost");
+      return true;
+    } catch (error) {
+      console.error("Error calculating image cost", error);
+      throw error;
+    }
+  }
 
   return {
     // Состояния
@@ -216,6 +238,7 @@ export const useAppStore = defineStore("app", () => {
     selectedModel,
     userId,
     languageObjects,
+    imageCost,
 
     // Геттеры
     modelNames,
@@ -226,6 +249,7 @@ export const useAppStore = defineStore("app", () => {
     // Действия
     fetchInitialData,
     saveSettings,
-    reset
+    reset,
+    calculateImageCost
   };
 });
