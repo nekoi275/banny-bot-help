@@ -95,14 +95,6 @@ const reset = async () => {
       <div class="col-12 md:col-4">
         <div class="field">
           <span class="p-text-secondary"
-            ><strong>{{ appStore.siteContent?.settings_seed }}:</strong></span
-          >
-          {{ appStore.user?.settings.seed || "random" }}
-        </div>
-      </div>
-      <div class="col-12 md:col-4">
-        <div class="field">
-          <span class="p-text-secondary"
             ><strong>{{ appStore.siteContent?.image_cost }}:</strong></span
           >
           {{ appStore.imageCost }}
