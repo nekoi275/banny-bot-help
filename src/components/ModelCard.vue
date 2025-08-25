@@ -40,25 +40,29 @@ const hasImages = computed(() => {
       {{ model.nsfw ? "&#128286" : "" }}
     </p>
     <p v-if="model.style">{{ model.style }}</p>
-    <p v-if="model.baseline">{{ model.baseline === "stable_diffusion_xl" ? "SDXL" : "SD" }}</p>
+    <p v-if="model.baseline">
+      {{ model.baseline === "stable_diffusion_xl" ? "SDXL" : "SD" }}
+    </p>
 
-    <Galleria
-      v-if="hasImages"
-      :value="modelImages"
-      :circular="true"
-      :showThumbnails="false"
-      :showItemNavigators="false"
-      :showItemNavigatorsOnHover="false"
-      :showIndicators="true"
-    >
-      <template #item="{ item }">
-        <img
-          :src="item.url"
-          :alt="item.alt"
-          style="max-height: 400px; object-fit: contain"
-        />
-      </template>
-    </Galleria>
+    <div class="gallery-container" v-if="hasImages">
+      <Galleria
+        v-if="hasImages"
+        :value="modelImages"
+        :circular="true"
+        :showThumbnails="false"
+        :showItemNavigators="false"
+        :showItemNavigatorsOnHover="false"
+        :showIndicators="true"
+      >
+        <template #item="{ item }">
+          <img
+            :src="item.url"
+            :alt="item.alt"
+            style="max-height: 400px; object-fit: contain"
+          />
+        </template>
+      </Galleria>
+    </div>
 
     <div class="description" v-if="model.description">
       <p>{{ model.description }}</p>
@@ -80,10 +84,13 @@ const hasImages = computed(() => {
   display: inline;
   margin-left: 3px;
 }
+
+.gallery-container {
+  margin-top: 30px;
+}
 .p-galleria {
   margin: auto;
   width: 400px;
-  margin-top: 20px;
 }
 .p-galleria img {
   height: 400px;
@@ -98,7 +105,7 @@ const hasImages = computed(() => {
   color: inherit;
 }
 .model-card-highlight {
-  background-color: #9bc597 !important;
+  background-color: var(--tg-theme-button-color) !important;
   color: inherit !important;
 }
 
