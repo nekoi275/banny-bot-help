@@ -6,8 +6,8 @@ import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import Toast from "primevue/toast";
 import { useMiniApp } from "vue-tg";
-import { useAppStore } from '@/stores/appStore';
-import { onMounted } from 'vue';
+import { useAppStore } from "@/stores/appStore";
+import { onMounted } from "vue";
 
 const miniApp = useMiniApp();
 const appStore = useAppStore();
@@ -31,18 +31,18 @@ onMounted(async () => {
 <template>
   <TabView>
     <TabPanel :header="appStore.tabHeaders[3]">
-      <UserProfile/>
+      <UserProfile />
     </TabPanel>
     <TabPanel :header="appStore.tabHeaders[0]">
       <div v-html="appStore.siteContent?.content_main"></div>
     </TabPanel>
     <TabPanel :header="appStore.tabHeaders[1]">
-      <ModelCard 
-        v-for="model in appStore.models" 
-        :key="model.name" 
+      <ModelCard
+        v-for="model in appStore.models"
+        :key="model.name"
         :model="model"
-        :style="{
-          backgroundColor: model.name === appStore.selectedModel ? '#9bc597' : ''
+        :class="{
+          'model-card-highlight': model.name === appStore.selectedModel,
         }"
       />
     </TabPanel>

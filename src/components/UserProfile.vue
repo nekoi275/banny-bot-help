@@ -45,7 +45,7 @@ const reset = async () => {
           <span class="p-text-secondary"
             ><strong>{{ appStore.siteContent?.settings_lang }}:</strong></span
           >
-          {{ appStore.user?.lang }}
+          {{ appStore.languageObjects.find(l => l.value === appStore.user?.lang)?.label }}
         </div>
       </div>
       <div class="col-12 md:col-4">
@@ -97,7 +97,7 @@ const reset = async () => {
           <span class="p-text-secondary"
             ><strong>{{ appStore.siteContent?.image_cost }}:</strong></span
           >
-          {{ appStore.imageCost }}
+          {{ appStore.imageCost }} 🥕
         </div>
       </div>
     </div>

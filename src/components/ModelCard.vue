@@ -93,6 +93,19 @@ const hasImages = computed(() => {
 .description {
   padding-top: 8px;
 }
+.p-component {
+  margin: 0px;
+  color: inherit;
+}
+.model-card-highlight {
+  background-color: #9bc597 !important;
+  color: inherit !important;
+}
+
+.model-card-highlight * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
 @media (max-width: 800px) {
   .p-galleria {
     width: 250px;

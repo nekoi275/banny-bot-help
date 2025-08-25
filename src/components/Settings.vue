@@ -122,7 +122,7 @@ const decrementCfg = () => {
     <div class="field">
       <span class="p-text-secondary"
       ><strong>{{ appStore.siteContent?.image_cost }}:</strong></span>
-          {{ appStore.imageCost }}
+          {{ appStore.imageCost }} 🥕
     </div>
     <div class="field">
       <label for="language">{{ appStore.siteContent?.settings_lang }}</label>
@@ -269,34 +269,32 @@ const decrementCfg = () => {
 
       <!-- Seed Field -->
       <div class="field">
-        <label>{{ appStore.siteContent?.settings_seed }}</label>
-        <div class="dimension-controls">
-          <InputNumber
-            v-model="localSettings.seed"
-            mode="decimal"
-            :min="1"
-            :max="Number.MAX_SAFE_INTEGER"
-            :step="1"
-            :useGrouping="false"
-            @update:modelValue="
-              (val: number | null) => updateSettings('seed', val)
-            "
-            class="dimension-input"
-          />
-          <div class="dimension-buttons">
-            <Button
-              label="&#127922"
-              @click="updateSettings('seed', generateRandomSeed())"
-              class="p-button-text dimension-button"
-            />
-            <Button
-              label="❌"
-              @click="updateSettings('seed', null)"
-              class="p-button-text dimension-button"
-            />
-          </div>
-        </div>
-      </div>
+  <label>{{ appStore.siteContent?.settings_seed }}</label>
+  <div class="seed-container">
+    <InputNumber
+      v-model="localSettings.seed"
+      mode="decimal"
+      :min="1"
+      :max="Number.MAX_SAFE_INTEGER"
+      :step="1"
+      :useGrouping="false"
+      @update:modelValue="(val: number | null) => updateSettings('seed', val)"
+      class="w-full"
+    />
+    <div class="seed-buttons">
+      <Button
+        label="&#127922"
+        @click="updateSettings('seed', generateRandomSeed())"
+        class="p-button-text dimension-button"
+      />
+      <Button
+        label="❌"
+        @click="updateSettings('seed', null)"
+        class="p-button-text dimension-button"
+      />
+    </div>
+  </div>
+</div>
 
       <div class="settings-line">
       <!-- Steps Field -->
@@ -392,12 +390,18 @@ const decrementCfg = () => {
   gap: 0.7rem;
   max-width: 400px;
 }
-
 .dimensions-single-line {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: space-between;
   margin: 1rem 0;
+  margin-bottom: 0;
+}
+
+.swap-button {
+  font-size: 1.25rem;
+  margin: auto;
+  align-self: center;
 }
 
 .dimension-group {
@@ -459,7 +463,7 @@ const decrementCfg = () => {
 
 .slider-cfg {
   width: 100%;
-  max-width: 400px; /* Match other field widths */
+  max-width: 400px;
 }
 
 .slider-cfg ::v-deep(.p-slider-handle) {
@@ -485,5 +489,18 @@ const decrementCfg = () => {
 
 .dimension-input {
   width: 80px;
+}
+.seed-container {
+  position: relative;
+}
+
+.seed-buttons {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.25rem;
+  padding-right: 0.25rem;
 }
 </style>
