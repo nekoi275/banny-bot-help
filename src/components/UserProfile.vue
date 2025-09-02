@@ -22,6 +22,9 @@ const topUpOptions = [
 const reset = async () => {
   try {
     await appStore.reset(appStore.userId);
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.close()
+    }
     toast.add({
       severity: "success",
       summary: appStore.siteContent?.settings_success,
@@ -39,9 +42,12 @@ const reset = async () => {
 const handleTopUp = async (stars: number) => {
   try {
     const invoiceData = await appStore.fetchInvoice(appStore.userId, stars);
-    tg?.openInvoice(invoiceData.invoice)
+    tg?.openInvoice(invoiceData.invoice);
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.close()
+    }
   } catch (error) {
-    console.error('Top-up error:', error);
+    console.error("Top-up error:", error);
   } finally {
     showTopUpDialog.value = false;
   }
@@ -129,9 +135,14 @@ const handleTopUp = async (stars: number) => {
     <Dialog
       v-model:visible="showTopUpDialog"
       modal
-      :style="{ width: '15rem' }"
+      :style="{ width: '15rem', padding: '1rem' }"
       :dismissableMask="true"
     >
+      <template #header>
+        <div class="relative">
+          <button class="p-dialog-header-close absolute top-1 right-1"></button>
+        </div>
+      </template>
       <div class="dialog-container">
         <Button
           v-for="(option, index) in topUpOptions"
@@ -162,7 +173,6 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  padding: 1rem;
-  justify-content: space-between;
+  justify-content: center;
 }
 </style>

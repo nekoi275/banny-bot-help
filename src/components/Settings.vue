@@ -193,6 +193,7 @@ const decrementCfg = () => {
         :min="64"
         :max="1920"
         :step="64"
+        disabled
         @update:modelValue="
           (val: number) => updateSettings('width', validateDimension(val))
         "
@@ -230,6 +231,7 @@ const decrementCfg = () => {
         :min="64"
         :max="1920"
         :step="64"
+        disabled
         @update:modelValue="
           (val: number) => updateSettings('height', validateDimension(val))
         "
@@ -503,6 +505,5 @@ const decrementCfg = () => {
   transform: translateY(-50%);
   display: flex;
   gap: 0.25rem;
-  padding-right: 0.25rem;
 }
 </style>
