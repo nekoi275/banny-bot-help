@@ -137,12 +137,8 @@ const handleTopUp = async (stars: number) => {
       modal
       :style="{ width: '15rem', padding: '1rem' }"
       :dismissableMask="true"
+      :header="appStore.siteContent?.top_up"
     >
-      <template #header>
-        <div class="relative">
-          <button class="p-dialog-header-close absolute top-1 right-1"></button>
-        </div>
-      </template>
       <div class="dialog-container">
         <Button
           v-for="(option, index) in topUpOptions"
@@ -174,5 +170,6 @@ h3 {
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
+  padding-top: 1rem;
 }
 </style>

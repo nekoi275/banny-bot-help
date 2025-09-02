@@ -50,9 +50,12 @@ watch(
   { deep: true }
 );
 
-const updateSettings = (key: keyof UserSettings, value: any) => {
+const updateSettings = async (key: keyof UserSettings, value: any) => {
   localSettings.value = { ...localSettings.value, [key]: value };
   emit("update:settings", localSettings.value);
+  if (key === 'model' || key === 'steps') {
+    await appStore.calculateImageCost(localSettings.value);
+  }
 };
 
 const swapDimensions = () => {
@@ -68,20 +71,23 @@ const validateDimension = (value: number) => {
   return Math.floor(value / 64) * 64;
 };
 
-const incrementDimension = (dimension: "width" | "height") => {
+const incrementDimension = async (dimension: "width" | "height") => {
   const newValue = Math.min(localSettings.value[dimension] + 64, 1920);
   updateSettings(dimension, newValue);
+  await appStore.calculateImageCost(localSettings.value);
 };
 
-const decrementDimension = (dimension: "width" | "height") => {
+const decrementDimension = async (dimension: "width" | "height") => {
   const newValue = Math.max(localSettings.value[dimension] - 64, 64);
   updateSettings(dimension, newValue);
+  await appStore.calculateImageCost(localSettings.value);
 };
 
-const applyResolution = (value: number[]) => {
+const applyResolution = async (value: number[]) => {
   if (value && value.length === 2) {
     updateSettings("width", value[0]);
     updateSettings("height", value[1]);
+    await appStore.calculateImageCost(localSettings.value);
   }
 };
 
