@@ -3,7 +3,8 @@ declare global {
   interface Window {
     Telegram?: {
       WebApp: {
-        openInvoice(url: string)
+        openInvoice(url: string),
+        close()
       };
     };
   }
