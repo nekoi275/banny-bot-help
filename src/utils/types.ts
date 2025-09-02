@@ -81,6 +81,10 @@ export interface UserData {
   expenses: Expense[];
 }
 
+export interface InvoiceData {
+  invoice: string;
+}
+
 export interface Content {
   [key: string]: string | string[];
   menu_main: string;
@@ -108,4 +112,6 @@ export interface Content {
   profile_balance: string;
   profile_user_days: string;
   image_cost: string;
+  top_up: string;
 }
+

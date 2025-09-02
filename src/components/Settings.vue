@@ -3,7 +3,6 @@ import { ref, watch, onMounted, computed } from "vue";
 import InputNumber from "primevue/inputnumber";
 import Dropdown from "primevue/dropdown";
 import Button from "primevue/button";
-import Slider from "primevue/slider";
 import Textarea from "primevue/textarea";
 import { useToast } from "primevue/usetoast";
 import { useAppStore } from "@/stores/appStore";
@@ -95,6 +94,9 @@ const saveSettings = async () => {
       summary: appStore.siteContent?.settings_success,
       life: 3000,
     });
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.close()
+    }
   } catch (error) {
     toast.add({
       severity: "error",
@@ -105,7 +107,7 @@ const saveSettings = async () => {
 };
 
 const generateRandomSeed = () => {
-  return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+  return Math.floor(Math.random() * 2147483647)
 };
 
 const incrementCfg = () => {

@@ -6,6 +6,7 @@ import type {
   UserData,
   Content,
   UserSettings,
+  InvoiceData
 } from "@/utils/types";
 
 const BASEURL =
@@ -157,6 +158,19 @@ export const useAppStore = defineStore("app", () => {
     }
   }
 
+  async function fetchInvoice(id: number, stars: number): Promise<InvoiceData> {
+    try {
+      const response = await fetch(`${BASEURL}/user/${id}/invoice/${stars}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      throw error;
+    }
+  }
+
   async function fetchInitialData() {
     try {
       const userData = await fetchUserData(userId.value);
@@ -250,6 +264,7 @@ export const useAppStore = defineStore("app", () => {
     fetchInitialData,
     saveSettings,
     reset,
-    calculateImageCost
+    calculateImageCost,
+    fetchInvoice
   };
 });
