@@ -13,6 +13,7 @@ const appStore = useAppStore();
 
 const emit = defineEmits(["update:settings"]);
 const showAdvancedSettings = ref(false);
+const selectedResolution = ref<{value: number[], label: string} | null>(null);
 
 const localSettings = ref<UserSettings>({
   width: appStore.user?.settings?.width || 512,
@@ -27,11 +28,13 @@ const localSettings = ref<UserSettings>({
 });
 
 const currentResolution = computed(() => {
-  return appStore.resolutions.find(
+  const res = appStore.resolutions.find(
     (res) =>
       res.value[0] === localSettings.value.width &&
       res.value[1] === localSettings.value.height
   );
+  selectedResolution.value = res || null;
+  return res;
 });
 
 onMounted(() => {
@@ -87,10 +90,12 @@ const applyResolution = async (value: number[]) => {
   if (value && value.length === 2) {
     updateSettings("width", value[0]);
     updateSettings("height", value[1]);
+    selectedResolution.value = appStore.resolutions.find(r => 
+      r.value[0] === value[0] && r.value[1] === value[1]
+    ) || null;
     await appStore.calculateImageCost(localSettings.value);
   }
 };
-
 const saveSettings = async () => {
   try {
     await appStore.saveSettings(localSettings.value, appStore.userId);
@@ -194,6 +199,20 @@ const decrementCfg = () => {
   <div class="dimension-group">
     <label>{{ appStore.siteContent?.settings_width }}</label>
     <div class="dimension-controls">
+            <div class="dimension-buttons">
+        <Button
+          label="↑"
+          @click="incrementDimension('width')"
+          class="p-button-text dimension-button"
+          :disabled="localSettings.width >= 1920"
+        />
+        <Button
+          label="↓"
+          @click="decrementDimension('width')"
+          class="p-button-text dimension-button"
+          :disabled="localSettings.width <= 64"
+        />
+      </div>
       <InputNumber
         v-model="localSettings.width"
         :min="64"
@@ -205,28 +224,15 @@ const decrementCfg = () => {
         "
         class="compact-input"
       />
-      <div class="dimension-buttons">
-        <Button
-          label="+"
-          @click="incrementDimension('width')"
-          class="p-button-text dimension-button"
-          :disabled="localSettings.width >= 1920"
-        />
-        <Button
-          label="-"
-          @click="decrementDimension('width')"
-          class="p-button-text dimension-button"
-          :disabled="localSettings.width <= 64"
-        />
-      </div>
     </div>
   </div>
 
   <Button
     label="&#x21c6;"
     @click="swapDimensions"
-    class="swap-button p-button-text"
+    class="p-button-text"
     aria-label="Swap dimensions"
+    :style="{'font-size': '2rem'}"
   />
 
   <div class="dimension-group">
@@ -245,13 +251,13 @@ const decrementCfg = () => {
       />
       <div class="dimension-buttons">
         <Button
-          label="+"
+          label="↑"
           @click="incrementDimension('height')"
           class="p-button-text dimension-button"
           :disabled="localSettings.height >= 1920"
         />
         <Button
-          label="-"
+          label="↓"
           @click="decrementDimension('height')"
           class="p-button-text dimension-button"
           :disabled="localSettings.height <= 64"
@@ -321,13 +327,13 @@ const decrementCfg = () => {
           />
           <div class="dimension-buttons">
             <Button
-              label="+"
+              label="↑"
               @click="updateSettings('steps', Math.min(localSettings.steps + 1, 50))"
               class="p-button-text dimension-button"
               :disabled="localSettings.steps >= 50"
             />
             <Button
-              label="-"
+              label="↓"
               @click="updateSettings('steps', Math.max(localSettings.steps - 1, 1))"
               class="p-button-text dimension-button"
               :disabled="localSettings.steps <= 1"
@@ -350,13 +356,13 @@ const decrementCfg = () => {
           />
           <div class="dimension-buttons">
             <Button
-              label="+"
+              label="↑"
               @click="incrementCfg"
               class="p-button-text dimension-button"
               :disabled="localSettings.cfg >= 14"
             />
             <Button
-              label="-"
+              label="↓"
               @click="decrementCfg"
               class="p-button-text dimension-button"
               :disabled="localSettings.cfg <= 1"
@@ -407,13 +413,6 @@ const decrementCfg = () => {
   margin: 1rem 0;
   margin-bottom: 0;
 }
-
-.swap-button {
-  font-size: 1.25rem;
-  margin: auto;
-  align-self: center;
-}
-
 .dimension-group {
   display: flex;
   flex-direction: column;
