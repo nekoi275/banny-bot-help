@@ -4,7 +4,6 @@ import Settings from "@/components/Settings.vue";
 import UserProfile from "@/components/UserProfile.vue";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
-import Toast from "primevue/toast";
 import { useMiniApp } from "vue-tg";
 import { useAppStore } from "@/stores/appStore";
 import { onMounted } from "vue";
@@ -50,7 +49,6 @@ onMounted(async () => {
       <Settings></Settings>
     </TabPanel>
   </TabView>
-  <Toast />
 </template>
 
 <style>
@@ -82,11 +80,5 @@ h3 {
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
-}
-.p-toast,
-.p-toast-message-content,
-.p-toast-message {
-padding: 0.5rem;
-max-width: 50vw;
 }
 </style>

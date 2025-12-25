@@ -5,11 +5,10 @@ import Dropdown from "primevue/dropdown";
 import Checkbox from "primevue/checkbox";
 import Button from "primevue/button";
 import Textarea from "primevue/textarea";
-import { useToast } from "primevue/usetoast";
 import { useAppStore } from "@/stores/appStore";
 import { type UserSettings } from "@/utils/types";
 
-const toast = useToast();
+const saveStatus = ref<'idle' | 'success' | 'error'>('idle');
 const appStore = useAppStore();
 
 const emit = defineEmits(["update:settings"]);
@@ -106,20 +105,18 @@ const saveSettings = async () => {
   try {
     await appStore.saveSettings(localSettings.value, appStore.userId);
     await appStore.calculateImageCost(localSettings.value);
-    toast.add({
-      severity: "success",
-      summary: appStore.siteContent?.settings_success,
-      life: 3000,
-    });
+    saveStatus.value = 'success';
     if (window.Telegram?.WebApp) {
-      window.Telegram.WebApp.close()
+      setTimeout(() => {
+        window.Telegram?.WebApp.close()
+      }, 3000);
     }
   } catch (error) {
-    toast.add({
-      severity: "error",
-      summary: appStore.siteContent?.settings_fail,
-      life: 3000,
-    });
+    saveStatus.value = 'error';
+  } finally {
+    setTimeout(() => {
+      saveStatus.value = 'idle';
+    }, 3000);
   }
 };
 
@@ -400,9 +397,14 @@ const decrementCfg = () => {
     <!-- Save Button -->
     <div class="buttons-container">
       <Button
-        :label="appStore.siteContent?.settings_save"
+        :label="saveStatus === 'success' ? '✔️' : saveStatus === 'error' ? '❌' : appStore.siteContent?.settings_save"
         @click="saveSettings"
         class="save-button"
+        :style="{ 
+          backgroundColor: saveStatus === 'success' ? 'lightgreen' : saveStatus === 'error' ? 'lightcoral' : '',
+          color: saveStatus === 'idle' ? '' : 'black',
+          borderColor: saveStatus === 'success' ? 'lightgreen' : saveStatus === 'error' ? 'lightcoral' : ''
+        }"
       />
     </div>
   </div>
