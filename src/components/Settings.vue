@@ -57,6 +57,11 @@ watch(
 const updateSettings = async (key: keyof UserSettings, value: any) => {
   localSettings.value = { ...localSettings.value, [key]: value };
   emit("update:settings", localSettings.value);
+  
+  if (key === 'lang') {
+    await appStore.updateLanguage(value);
+  }
+  
   if (key === 'model' || key === 'steps') {
     await appStore.calculateImageCost(localSettings.value);
   }
@@ -150,9 +155,7 @@ const decrementCfg = () => {
         :placeholder="
           appStore.user?.lang || appStore.siteContent?.settings_lang
         "
-        editable
         filter
-        input
         class="dropdown-white-bg"
       />
     </div>

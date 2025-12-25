@@ -119,19 +119,6 @@ export const useAppStore = defineStore("app", () => {
   ]);
 
   // Действия
-  async function fetchContent(lang: string): Promise<Content> {
-    try {
-      const response = await fetch(`${BASEURL}/content/${lang}`);
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.status}`);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching content:", error);
-      throw error;
-    }
-  }
-
   async function fetchModels(): Promise<Model[]> {
     try {
       const response = await fetch(`${BASEURL}/models`);
@@ -174,11 +161,14 @@ export const useAppStore = defineStore("app", () => {
   async function fetchInitialData() {
     try {
       const userData = await fetchUserData(userId.value);
-      const contentData = await fetchContent(userData.user.settings.lang);
 
       user.value = userData.user;
       selectedModel.value = user.value.settings.model;
-      siteContent.value = contentData;
+
+      // Load translations from local JSON file
+      const translationsResponse = await fetch('/translations.json');
+      const translations = await translationsResponse.json();
+      siteContent.value = translations[userData.user.settings.lang] as Content;
 
       const modelsData = await fetchModels();
       models.value = modelsData;
@@ -244,6 +234,20 @@ export const useAppStore = defineStore("app", () => {
     }
   }
 
+  async function updateLanguage(lang: string) {
+    try {
+      if (user.value?.settings) {
+        user.value.settings.lang = lang;
+      }
+      const translationsResponse = await fetch('/translations.json');
+      const translations = await translationsResponse.json();
+      siteContent.value = translations[lang] as Content;
+    } catch (error) {
+      console.error("Error updating language:", error);
+      throw error;
+    }
+  }
+
   return {
     // Состояния
     models,
@@ -265,6 +269,7 @@ export const useAppStore = defineStore("app", () => {
     saveSettings,
     reset,
     calculateImageCost,
-    fetchInvoice
+    fetchInvoice,
+    updateLanguage
   };
 });

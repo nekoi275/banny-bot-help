@@ -86,6 +86,7 @@ h3 {
 .p-toast,
 .p-toast-message-content,
 .p-toast-message {
-  width: 100px;
+padding: 0.5rem;
+max-width: 50vw;
 }
 </style>
