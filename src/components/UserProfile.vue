@@ -85,7 +85,11 @@ const handleTopUp = async (stars: number) => {
         <span class="p-text-secondary"
           ><strong>{{ appStore.siteContent?.settings_mode }}:</strong></span
         >
-        {{ appStore.user?.settings.mode }}
+        {{ 
+          appStore.user?.settings.features
+            ?.map(f => appStore.availableFeatures.find(af => af.value === f)?.label || f)
+            .join(', ') 
+        }}
       </div>
       <div class="field">
         <span class="p-text-secondary"

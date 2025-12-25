@@ -2,6 +2,7 @@
 import { ref, watch, onMounted, computed } from "vue";
 import InputNumber from "primevue/inputnumber";
 import Dropdown from "primevue/dropdown";
+import Checkbox from "primevue/checkbox";
 import Button from "primevue/button";
 import Textarea from "primevue/textarea";
 import { useToast } from "primevue/usetoast";
@@ -18,11 +19,11 @@ const selectedResolution = ref<{value: number[], label: string} | null>(null);
 const localSettings = ref<UserSettings>({
   width: appStore.user?.settings?.width || 512,
   height: appStore.user?.settings?.height || 512,
-  mode: appStore.user?.settings?.mode || appStore.modes[0]?.value || "RP",
+  features: appStore.user?.settings?.features || [],
   model: appStore.user?.settings?.model || appStore.modelNames[0] || "",
   seed: appStore.user?.settings?.seed || null,
   steps: appStore.user?.settings?.steps || 20,
-  lang: appStore.user?.lang || "",
+  lang: appStore.user?.settings?.lang || appStore.user?.lang || "en",
   negative: appStore.user?.settings?.negative || "",
   cfg: appStore.user?.settings.cfg || 7
 });
@@ -156,17 +157,25 @@ const decrementCfg = () => {
       />
     </div>
     <div class="field">
-      <label for="mode">{{ appStore.siteContent?.settings_mode }}</label>
-      <Dropdown
-        id="mode"
-        v-model="localSettings.mode"
-        :options="appStore.modes"
-        option-label="label"
-        option-value="value"
-        @change="updateSettings('mode', $event.value)"
-        :placeholder="appStore.siteContent?.settings_mode"
-        class="dropdown-white-bg"
-      />
+      <label>{{ appStore.siteContent?.settings_mode || 'Features' }}</label>
+      <div class="features">
+        <div v-for="feature in appStore.availableFeatures" :key="feature.value" class="feature-item">
+          <Checkbox
+            :id="feature.value"
+            v-model="localSettings.features"
+            :value="feature.value"
+            :disabled="feature.disabled"
+            @change="updateSettings('features', localSettings.features)"
+          />
+          <label 
+            :for="feature.value" 
+            class="feature-label"
+            :class="{ 'disabled-label': feature.disabled }"
+          >
+            {{ feature.label }}
+          </label>
+        </div>
+      </div>
     </div>
     <div class="field">
       <label for="model">{{ appStore.siteContent?.settings_model }}</label>
@@ -197,7 +206,7 @@ const decrementCfg = () => {
 
     <div class="dimensions-single-line">
   <div class="dimension-group">
-    <label>{{ appStore.siteContent?.settings_width }}</label>
+    <span>{{ appStore.siteContent?.settings_width }}</span>
     <div class="dimension-controls">
             <div class="dimension-buttons">
         <Button
@@ -236,7 +245,7 @@ const decrementCfg = () => {
   />
 
   <div class="dimension-group">
-    <label>{{ appStore.siteContent?.settings_height }}</label>
+    <span>{{ appStore.siteContent?.settings_height }}</span>
     <div class="dimension-controls">
       <InputNumber
         v-model="localSettings.height"
@@ -315,7 +324,7 @@ const decrementCfg = () => {
       <div class="settings-line">
       <!-- Steps Field -->
       <div class="field">
-        <label>{{ appStore.siteContent?.settings_steps }}</label>
+        <span>{{ appStore.siteContent?.settings_steps }}</span>
         <div class="dimension-controls">
           <InputNumber
             v-model="localSettings.steps"
@@ -344,7 +353,7 @@ const decrementCfg = () => {
 
       <!-- CFG Field -->
       <div class="field">
-        <label>{{ appStore.siteContent?.settings_cfg || 'CFG Scale' }}</label>
+        <span>{{ appStore.siteContent?.settings_cfg || 'CFG Scale' }}</span>
         <div class="dimension-controls">
           <InputNumber
             v-model="localSettings.cfg"
@@ -397,6 +406,10 @@ const decrementCfg = () => {
 </template>
 
 <style scoped>
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
 .w-full {
   width: 100%;
 }
@@ -510,5 +523,27 @@ const decrementCfg = () => {
   transform: translateY(-50%);
   display: flex;
   gap: 0.25rem;
+}
+
+.features {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.feature-label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.disabled-label {
+  color: #999;
+  cursor: not-allowed;
 }
 </style>

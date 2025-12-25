@@ -9,6 +9,12 @@ import type {
   InvoiceData
 } from "@/utils/types";
 
+export interface AppFeature {
+  label: string;
+  value: string;
+  disabled?: boolean;
+}
+
 const BASEURL =
   "https://a3eqyxqi6gfrg3nhw4v3rl6q4m0gtpqi.lambda-url.eu-west-1.on.aws";
 
@@ -95,20 +101,14 @@ export const useAppStore = defineStore("app", () => {
     value: languageCodes[index],
   }));
 
-  const modes = computed(() => {
-    if (!siteContent.value) {
-      return [
-        { label: "Roleplay", value: "RP" },
-        { label: "Roleplay and art", value: "RP_ART" },
-        { label: "Art", value: "ART" },
-      ];
-    }
-    return [
-      { label: siteContent.value.settings_mode_RP, value: "RP" },
-      { label: siteContent.value.settings_mode_RPART, value: "RP_ART" },
-      { label: siteContent.value.settings_mode_ART, value: "ART" },
-    ];
-  });
+  const availableFeatures = computed<AppFeature[]>(() => [
+    { label: (siteContent.value?.feature_text as string) || "Text", value: "text" },
+    { label: (siteContent.value?.feature_image as string) || "Image", value: "image" },
+    // { label: (siteContent.value?.feature_voice as string) || "Voice", value: "voice", disabled: true },
+    // { label: (siteContent.value?.feature_video as string) || "Video", value: "video", disabled: true },
+    // { label: (siteContent.value?.feature_emoji as string) || "Emoji", value: "emoji" },
+    { label: (siteContent.value?.feature_meme as string) || "Meme", value: "meme" },
+  ]);
 
   const resolutions = computed(() => [
     { label: "1:2", value: [768, 1536] },
@@ -174,7 +174,7 @@ export const useAppStore = defineStore("app", () => {
   async function fetchInitialData() {
     try {
       const userData = await fetchUserData(userId.value);
-      const contentData = await fetchContent(userData.user.lang);
+      const contentData = await fetchContent(userData.user.settings.lang);
 
       user.value = userData.user;
       selectedModel.value = user.value.settings.model;
@@ -257,7 +257,7 @@ export const useAppStore = defineStore("app", () => {
     // Геттеры
     modelNames,
     tabHeaders,
-    modes,
+    availableFeatures,
     resolutions,
 
     // Действия

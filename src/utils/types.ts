@@ -37,7 +37,6 @@ export interface Model {
 
 export interface UserSettings {
   width: number;
-  mode: string;
   model: string | null;
   seed: number | null;
   steps: number;
@@ -45,6 +44,7 @@ export interface UserSettings {
   lang: string;
   negative: string;
   cfg: number;
+  features: string[];
 }
 
 export interface User {
