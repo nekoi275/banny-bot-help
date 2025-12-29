@@ -26,6 +26,7 @@ export const useAppStore = defineStore("app", () => {
   const selectedModel = ref<string | null>(null);
   const userId = ref<number>(301507567); // тестовый юзер
   const imageCost = ref<number>(0);
+  const isLoading = ref<boolean>(true);
 
   // Геттеры
   const modelNames = computed(() => models.value.map((model) => model.name));
@@ -165,7 +166,6 @@ export const useAppStore = defineStore("app", () => {
       user.value = userData.user;
       selectedModel.value = user.value.settings.model;
 
-      // Load translations from local JSON file
       const translationsResponse = await fetch('/translations.json');
       const translations = await translationsResponse.json();
       siteContent.value = translations[userData.user.settings.lang] as Content;
@@ -175,6 +175,8 @@ export const useAppStore = defineStore("app", () => {
     } catch (error) {
       console.error("Error fetching initial data:", error);
       throw error;
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -257,6 +259,7 @@ export const useAppStore = defineStore("app", () => {
     userId,
     languageObjects,
     imageCost,
+    isLoading,
 
     // Геттеры
     modelNames,

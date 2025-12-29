@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ModelCard from "@/components/ModelCard.vue";
+import LoadingScreen from "@/components/LoadingScreen.vue";
 import Settings from "@/components/Settings.vue";
 import UserProfile from "@/components/UserProfile.vue";
 import TabView from "primevue/tabview";
@@ -28,6 +29,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <LoadingScreen :loading="appStore.isLoading" />
   <TabView>
     <TabPanel :header="appStore.tabHeaders[3]">
       <UserProfile />
