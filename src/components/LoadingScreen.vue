@@ -33,7 +33,7 @@ const carrots = Array.from({ length: 12 }); // 12 carrots for the circle
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: var(--tg-theme-bg-color, #ffffff);
+  background-color: var(--tg-theme-bg-color);
   z-index: 9999;
   display: flex;
   justify-content: center;
