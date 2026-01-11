@@ -24,7 +24,7 @@ export const useAppStore = defineStore("app", () => {
   const user = ref<User>();
   const siteContent = ref<Content>();
   const selectedModel = ref<string | null>(null);
-  const userId = ref<number>(301507567); // тестовый юзер
+  const userId = ref<number>();
   const imageCost = ref<number>(0);
   const isLoading = ref<boolean>(true);
 
@@ -105,7 +105,7 @@ export const useAppStore = defineStore("app", () => {
   const availableFeatures = computed<AppFeature[]>(() => [
     { label: (siteContent.value?.feature_text as string) || "Text", value: "text" },
     { label: (siteContent.value?.feature_image as string) || "Image", value: "image" },
-    // { label: (siteContent.value?.feature_voice as string) || "Voice", value: "voice", disabled: true },
+    { label: (siteContent.value?.feature_voice as string) || "Voice", value: "voice" },
     // { label: (siteContent.value?.feature_video as string) || "Video", value: "video", disabled: true },
     // { label: (siteContent.value?.feature_emoji as string) || "Emoji", value: "emoji" },
     { label: (siteContent.value?.feature_meme as string) || "Meme", value: "meme" },
@@ -161,6 +161,7 @@ export const useAppStore = defineStore("app", () => {
 
   async function fetchInitialData() {
     try {
+      if (!userId.value) throw new Error("Missing user ID");
       const userData = await fetchUserData(userId.value);
 
       user.value = userData.user;

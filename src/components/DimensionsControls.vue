@@ -18,6 +18,18 @@ const emit = defineEmits<{
 
 const selectedResolution = ref<{ value: number[]; label: string } | null>(null);
 
+const gcd = (a: number, b: number): number => {
+  return b === 0 ? a : gcd(b, a % b);
+};
+
+const calculatedPlaceholder = computed(() => {
+  if (props.width && props.height) {
+    const divisor = gcd(props.width, props.height);
+    return `${props.width / divisor}:${props.height / divisor}`;
+  }
+  return props.siteContent?.settings_resolution;
+});
+
 const currentResolution = computed({
   get: () => {
     const res = props.resolutions.find(
@@ -82,7 +94,7 @@ const applyResolution = (value: number[]) => {
       :options="resolutions"
       option-label="label"
       @change="applyResolution($event.value?.value)"
-      :placeholder="siteContent?.settings_resolution"
+      :placeholder="calculatedPlaceholder"
       class="dropdown-white-bg"
     />
   </div>
@@ -165,8 +177,6 @@ label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 1rem 0;
-  margin-bottom: 0;
 }
 .dimension-group {
   display: flex;

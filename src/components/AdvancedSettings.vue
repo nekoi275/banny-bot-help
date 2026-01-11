@@ -48,9 +48,8 @@ const updateNegative = (val: string) => {
 </script>
 
 <template>
-  <div>
-    <!-- Seed Field -->
-    <div class="field">
+  <div class="advanced-settings">
+    <div>
       <label>{{ siteContent?.settings_seed }}</label>
       <div class="seed-container">
         <InputNumber
@@ -80,7 +79,7 @@ const updateNegative = (val: string) => {
 
     <div class="settings-line">
       <!-- Steps Field -->
-      <div class="field">
+      <div>
         <span>{{ siteContent?.settings_steps }}</span>
         <div class="dimension-controls">
           <InputNumber
@@ -108,8 +107,7 @@ const updateNegative = (val: string) => {
         </div>
       </div>
 
-      <!-- CFG Field -->
-      <div class="field">
+      <div>
         <span>{{ siteContent?.settings_cfg || 'CFG Scale' }}</span>
         <div class="dimension-controls">
           <InputNumber
@@ -138,7 +136,7 @@ const updateNegative = (val: string) => {
       </div>
     </div>
 
-    <div class="field">
+    <div>
       <label>{{ siteContent?.settings_negative }}</label>
       <Textarea
         :model-value="negative"
@@ -157,17 +155,18 @@ label {
   display: block;
   margin-bottom: 0.5rem;
 }
+.advanced-settings{
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
 .w-full {
   width: 100%;
-}
-.field {
-  margin-bottom: 1rem;
 }
 .settings-line {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  margin: 1rem 0;
 }
 .dimension-controls {
   display: flex;

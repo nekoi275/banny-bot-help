@@ -12,13 +12,15 @@ import { onMounted } from "vue";
 const miniApp = useMiniApp();
 const appStore = useAppStore();
 
-// только для телеграмма
-/*
 const initData = miniApp.initDataUnsafe;
 if (initData.user?.id) {
   appStore.userId = initData.user.id;
+} else {
+  const testUserId = import.meta.env.VITE_TEST_USER_ID;
+  if (testUserId) {
+    appStore.userId = Number(testUserId);
+  }
 }
-*/
 
 onMounted(async () => {
   await appStore.fetchInitialData();

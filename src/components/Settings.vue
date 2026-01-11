@@ -169,8 +169,7 @@ const saveSettings = async () => {
       />
     </div>
 
-    <div class="buttons-container">
-      <Button
+    <Button
         :label="saveStatus === 'success' ? '✔️' : saveStatus === 'error' ? '❌' : appStore.siteContent?.settings_save"
         @click="saveSettings"
         class="save-button"
@@ -180,7 +179,6 @@ const saveSettings = async () => {
           borderColor: saveStatus === 'success' ? 'lightgreen' : saveStatus === 'error' ? 'lightcoral' : ''
         }"
       />
-    </div>
   </div>
 </template>
 
@@ -204,11 +202,6 @@ label {
 .dropdown-white-bg .p-dropdown-items .p-dropdown-item:hover {
   background: #f5f5f5;
 }
-.buttons-container {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 1rem;
-}
 .features {
   display: flex;
   flex-direction: row;
@@ -222,6 +215,7 @@ label {
 .feature-label {
   cursor: pointer;
   user-select: none;
+  margin: 0;
 }
 .disabled-label {
   color: #999;
