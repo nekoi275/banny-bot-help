@@ -21,6 +21,7 @@ const topUpOptions = [
 
 const reset = async () => {
   try {
+    if (!appStore.userId) { return }
     await appStore.reset(appStore.userId);
     if (window.Telegram?.WebApp) {
       window.Telegram.WebApp.close()
@@ -41,6 +42,7 @@ const reset = async () => {
 
 const handleTopUp = async (stars: number) => {
   try {
+    if (!appStore.userId) { return }
     const invoiceData = await appStore.fetchInvoice(appStore.userId, stars);
     tg?.openInvoice(invoiceData.invoice);
     if (window.Telegram?.WebApp) {

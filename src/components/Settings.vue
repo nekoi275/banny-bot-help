@@ -57,6 +57,7 @@ const updateSettings = async (key: keyof UserSettings, value: any) => {
 
 const saveSettings = async () => {
   try {
+    if (!appStore.userId) { return }
     await appStore.saveSettings(localSettings.value, appStore.userId);
     await appStore.calculateImageCost(localSettings.value);
     saveStatus.value = 'success';
