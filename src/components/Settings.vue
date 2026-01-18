@@ -104,13 +104,13 @@ const saveSettings = async () => {
             :id="feature.value"
             v-model="localSettings.features"
             :value="feature.value"
-            :disabled="feature.disabled"
+            :disabled="feature.disabled || (localSettings.features.length === 1 && localSettings.features.includes(feature.value))"
             @change="updateSettings('features', localSettings.features)"
           />
           <label 
             :for="feature.value" 
             class="feature-label"
-            :class="{ 'disabled-label': feature.disabled }"
+            :class="{ 'disabled-label': feature.disabled || (localSettings.features.length === 1 && localSettings.features.includes(feature.value)) }"
           >
             {{ feature.label }}
           </label>
@@ -137,7 +137,7 @@ const saveSettings = async () => {
         class="dropdown-white-bg"
       />
     </div>
-    <div class="field">
+    <div class="field" v-if="localSettings.features.includes('image')">
       <div class="field-header">
         <label for="model">{{ appStore.siteContent?.settings_model }}</label>
         <span class="cost-display">
@@ -155,6 +155,7 @@ const saveSettings = async () => {
     </div>
 
     <DimensionsControls
+      v-if="localSettings.features.includes('image')"
       :width="localSettings.width"
       :height="localSettings.height"
       :resolutions="appStore.resolutions"
@@ -164,14 +165,14 @@ const saveSettings = async () => {
     />
 
     <Button 
-      v-if="!showAdvancedSettings"
+      v-if="!showAdvancedSettings && localSettings.features.includes('image')"
       label="▼"
       @click="showAdvancedSettings = true"
       class="p-button-text"
       icon="pi pi-angle-down"
     />
 
-    <div v-if="showAdvancedSettings">
+    <div v-if="showAdvancedSettings && localSettings.features.includes('image')">
       <Button 
         label="▲"
         @click="showAdvancedSettings = false"
@@ -228,6 +229,7 @@ label {
 .features {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 .feature-item {
