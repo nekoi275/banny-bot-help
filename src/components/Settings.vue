@@ -3,6 +3,7 @@ import { ref, watch, onMounted } from "vue";
 import Dropdown from "primevue/dropdown";
 import Checkbox from "primevue/checkbox";
 import Button from "primevue/button";
+import InputNumber from "primevue/inputnumber";
 import { useAppStore } from "@/stores/appStore";
 import { type UserSettings } from "@/utils/types";
 import DimensionsControls from "./DimensionsControls.vue";
@@ -24,7 +25,9 @@ const localSettings = ref<UserSettings>({
   lang: appStore.user?.settings?.lang || appStore.user?.lang || "en",
   negative: appStore.user?.settings?.negative || "",
   text_model: appStore.user?.settings?.text_model || (appStore.textModels.length > 0 ? appStore.textModels[0].id : undefined),
-  cfg: appStore.user?.settings.cfg || 7
+  cfg: appStore.user?.settings.cfg || 7,
+  history_len: appStore.user?.settings?.history_len || 2,
+  answer_len: appStore.user?.settings?.answer_len || 256
 });
 
 onMounted(() => {
@@ -136,6 +139,66 @@ const saveSettings = async () => {
         :placeholder="appStore.siteContent?.settings_text_model"
         class="dropdown-white-bg"
       />
+    </div>
+
+    <div v-if="localSettings.features.includes('text')" class="dimensions-single-line">
+      <div class="dimension-group">
+        <span>{{ appStore.siteContent?.settings_history_length }}</span>
+        <div class="dimension-controls">
+          <div class="dimension-buttons">
+            <Button
+              label="↑"
+              @click="localSettings.history_len = Math.min((localSettings.history_len || 0) + 1, 10); updateSettings('history_len', localSettings.history_len)"
+              class="p-button-text dimension-button"
+              :disabled="(localSettings.history_len || 0) >= 10"
+            />
+            <Button
+              label="↓"
+              @click="localSettings.history_len = Math.max((localSettings.history_len || 0) - 1, 0); updateSettings('history_len', localSettings.history_len)"
+              class="p-button-text dimension-button"
+              :disabled="(localSettings.history_len || 0) <= 0"
+            />
+          </div>
+          <InputNumber
+            v-model="localSettings.history_len"
+            :min="0"
+            :max="10"
+            :step="1"
+            disabled
+            @input="updateSettings('history_len', $event.value)"
+            class="compact-input"
+          />
+        </div>
+      </div>
+      
+      <div class="dimension-group">
+        <span>{{ appStore.siteContent?.settings_answer_length }}</span>
+        <div class="dimension-controls">
+          <InputNumber
+            v-model="localSettings.answer_len"
+            :min="64"
+            :max="512"
+            :step="64"
+            disabled
+            @input="updateSettings('answer_len', $event.value)"
+            class="compact-input"
+          />
+          <div class="dimension-buttons">
+            <Button
+              label="↑"
+              @click="localSettings.answer_len = Math.min((localSettings.answer_len || 256) + 64, 512); updateSettings('answer_len', localSettings.answer_len)"
+              class="p-button-text dimension-button"
+              :disabled="(localSettings.answer_len || 256) >= 512"
+            />
+            <Button
+              label="↓"
+              @click="localSettings.answer_len = Math.max((localSettings.answer_len || 256) - 64, 64); updateSettings('answer_len', localSettings.answer_len)"
+              class="p-button-text dimension-button"
+              :disabled="(localSettings.answer_len || 256) <= 64"
+            />
+          </div>
+        </div>
+      </div>
     </div>
     <div class="field" v-if="localSettings.features.includes('image')">
       <div class="field-header">
@@ -258,5 +321,35 @@ label {
 .cost-display {
   font-size: 0.9em;
   color: var(--text-color-secondary);
+}
+
+.dimensions-single-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dimension-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.dimension-controls {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+.compact-input {
+  width: 80px;
+}
+.dimension-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.dimension-button {
+  width: 2rem;
+  height: 1.5rem;
+  padding: 0;
+  min-width: auto;
 }
 </style>

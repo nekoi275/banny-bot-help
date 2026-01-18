@@ -56,6 +56,8 @@ export interface UserSettings {
   negative: string;
   cfg: number;
   features: string[];
+  history_len?: number;
+  answer_len?: number;
 }
 
 export interface User {
