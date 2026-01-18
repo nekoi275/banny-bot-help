@@ -79,11 +79,7 @@ const saveSettings = async () => {
 
 <template>
   <div class="settings-container p-fluid">
-    <div class="field">
-      <span class="p-text-secondary"
-      ><strong>{{ appStore.siteContent?.image_cost }}:</strong></span>
-          {{ appStore.imageCost }} 🥕
-    </div>
+
     <div class="field">
       <label for="language">{{ appStore.siteContent?.settings_lang }}</label>
       <Dropdown
@@ -122,17 +118,6 @@ const saveSettings = async () => {
       </div>
     </div>
     <div class="field">
-      <label for="model">{{ appStore.siteContent?.settings_model }}</label>
-      <Dropdown
-        id="model"
-        v-model="localSettings.model"
-        :options="appStore.modelNames"
-        @change="updateSettings('model', $event.value)"
-        :placeholder="appStore.siteContent?.settings_model"
-        class="dropdown-white-bg"
-      />
-    </div>
-    <div class="field">
       <div class="field-header"> 
         <label for="text_model">{{ appStore.siteContent?.settings_text_model }}</label>
         <span class="cost-display" v-if="localSettings.text_model">
@@ -149,6 +134,22 @@ const saveSettings = async () => {
         optionValue="id"
         @change="updateSettings('text_model', $event.value)"
         :placeholder="appStore.siteContent?.settings_text_model"
+        class="dropdown-white-bg"
+      />
+    </div>
+    <div class="field">
+      <div class="field-header">
+        <label for="model">{{ appStore.siteContent?.settings_model }}</label>
+        <span class="cost-display">
+          <strong>{{ appStore.siteContent?.image_cost }}:</strong> {{ appStore.imageCost }} 🥕
+        </span>
+      </div>
+      <Dropdown
+        id="model"
+        v-model="localSettings.model"
+        :options="appStore.modelNames"
+        @change="updateSettings('model', $event.value)"
+        :placeholder="appStore.siteContent?.settings_model"
         class="dropdown-white-bg"
       />
     </div>
