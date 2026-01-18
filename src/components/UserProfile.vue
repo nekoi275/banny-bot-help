@@ -102,7 +102,7 @@ const handleTopUp = async (stars: number) => {
         <span class="p-text-secondary"
           ><strong>{{ appStore.siteContent?.settings_text_model }}:</strong></span
         >
-        {{ appStore.user?.settings.text_model }}
+        {{ appStore.textModels.find(m => m.id === appStore.user?.settings.text_model)?.name || appStore.user?.settings.text_model }}
       </div>
       <div class="field">
         <span class="p-text-secondary"
