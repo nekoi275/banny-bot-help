@@ -76,15 +76,6 @@ const handleTopUp = async (stars: number) => {
       </div>
       <div class="field">
         <span class="p-text-secondary"
-          ><strong>{{ appStore.siteContent?.settings_lang }}:</strong></span
-        >
-        {{
-          appStore.languageObjects.find((l) => l.value === appStore.user?.lang)
-            ?.label
-        }}
-      </div>
-      <div class="field">
-        <span class="p-text-secondary"
           ><strong>{{ appStore.siteContent?.settings_mode }}:</strong></span
         >
         {{ 
@@ -109,6 +100,12 @@ const handleTopUp = async (stars: number) => {
       </div>
       <div class="field">
         <span class="p-text-secondary"
+          ><strong>{{ appStore.siteContent?.settings_text_model }}:</strong></span
+        >
+        {{ appStore.user?.settings.text_model }}
+      </div>
+      <div class="field">
+        <span class="p-text-secondary"
           ><strong>{{ appStore.siteContent?.settings_model }}:</strong></span
         >
         {{ appStore.user?.settings.model }}
@@ -118,12 +115,6 @@ const handleTopUp = async (stars: number) => {
           ><strong>{{ appStore.siteContent?.settings_seed }}:</strong></span
         >
         {{ appStore.user?.settings.seed || "random" }}
-      </div>
-      <div class="field">
-        <span class="p-text-secondary"
-          ><strong>{{ appStore.siteContent?.image_cost }}:</strong></span
-        >
-        {{ appStore.imageCost }} 🥕
       </div>
     </div>
   </div>
