@@ -33,7 +33,9 @@
     "feature_voice": "Voice",
     "feature_video": "Video",
     "feature_emoji": "Reactions",
-    "feature_meme": "Memes"
+    "feature_meme": "Memes",
+    "settings_history_length": "History length",
+    "settings_answer_length": "Answer length"
   },
   "ru": {
     "menu_profile": "Профиль",
@@ -69,7 +71,9 @@
     "feature_voice": "Голосовые",
     "feature_video": "Видео",
     "feature_emoji": "Реакции",
-    "feature_meme": "Мемы"
+    "feature_meme": "Мемы",
+    "settings_history_length": "Длина истории",
+    "settings_answer_length": "Длина ответа"
   },
   "uk": {
     "menu_profile": "Профіль",
@@ -105,7 +109,9 @@
     "feature_voice": "Голосові",
     "feature_video": "Відео",
     "feature_emoji": "Реакції",
-    "feature_meme": "Меми"
+    "feature_meme": "Меми",
+    "settings_history_length": "Довжина історії",
+    "settings_answer_length": "Довжина відповіді"
   },
   "be": {
     "menu_profile": "Профіль",
@@ -141,7 +147,9 @@
     "feature_voice": "Галас",
     "feature_video": "Відэа",
     "feature_emoji": "Рэакцыі",
-    "feature_meme": "Мемы"
+    "feature_meme": "Мемы",
+    "settings_history_length": "Даўжыня гісторыі",
+    "settings_answer_length": "Даўжыня адказу"
   },
   "bg": {
     "menu_profile": "Профил",
@@ -177,7 +185,9 @@
     "feature_voice": "Глас",
     "feature_video": "Видео",
     "feature_emoji": "Реакции",
-    "feature_meme": "Мемове"
+    "feature_meme": "Мемове",
+    "settings_history_length": "Дължина на историята",
+    "settings_answer_length": "Дължина на отговора"
   },
   "sr": {
     "menu_profile": "Profil",
@@ -213,7 +223,9 @@
     "feature_voice": "Glas",
     "feature_video": "Video",
     "feature_emoji": "Reakcije",
-    "feature_meme": "Meme"
+    "feature_meme": "Meme",
+    "settings_history_length": "Dužina istorije",
+    "settings_answer_length": "Dužina odgovora"
   },
   "es": {
     "menu_profile": "Perfil",
@@ -249,7 +261,9 @@
     "feature_voice": "Voz",
     "feature_video": "Video",
     "feature_emoji": "Reacciones",
-    "feature_meme": "Memes"
+    "feature_meme": "Memes",
+    "settings_history_length": "Longitud del historial",
+    "settings_answer_length": "Longitud de la respuesta"
   },
   "fr": {
     "menu_profile": "Profil",
@@ -279,7 +293,9 @@
     "profile_user_days": "Jours avec Banny",
     "message_cost": "Coût du message",
     "image_cost": "Coût de l'image",
-    "top_up": "Acheter 🥕"
+    "top_up": "Acheter 🥕",
+    "settings_history_length": "Longueur de l'historique",
+    "settings_answer_length": "Longueur de la réponse"
   },
   "de": {
     "menu_profile": "Profil",
@@ -315,7 +331,9 @@
     "feature_voice": "Voix",
     "feature_video": "Vidéo",
     "feature_emoji": "Réactions",
-    "feature_meme": "Mèmes"
+    "feature_meme": "Mèmes",
+    "settings_history_length": "Verlaufslänge",
+    "settings_answer_length": "Antwortlänge"
   },
   "it": {
     "menu_profile": "Profilo",
@@ -351,7 +369,9 @@
     "feature_voice": "Vocali",
     "feature_video": "Video",
     "feature_emoji": "Reazioni",
-    "feature_meme": "Meme"
+    "feature_meme": "Meme",
+    "settings_history_length": "Lunghezza cronologia",
+    "settings_answer_length": "Lunghezza risposta"
   },
   "pt": {
     "menu_profile": "Perfil",
@@ -387,7 +407,9 @@
     "feature_voice": "Voz",
     "feature_video": "Vídeo",
     "feature_emoji": "Reações",
-    "feature_meme": "Memes"
+    "feature_meme": "Memes",
+    "settings_history_length": "Tamanho do histórico",
+    "settings_answer_length": "Tamanho da resposta"
   },
   "zh": {
     "menu_profile": "个人资料",
@@ -423,7 +445,9 @@
     "feature_voice": "语音",
     "feature_video": "视频",
     "feature_emoji": "表情",
-    "feature_meme": "梗图"
+    "feature_meme": "梗图",
+    "settings_history_length": "历史长度",
+    "settings_answer_length": "回复长度"
   },
   "hi": {
     "menu_profile": "प्रोफ़ाइल",
@@ -459,7 +483,9 @@
     "feature_voice": "वॉयस",
     "feature_video": "वीडियो",
     "feature_emoji": "रिएक्शन्स",
-    "feature_meme": "मीम्स"
+    "feature_meme": "मीम्स",
+    "settings_history_length": "इतिहास की लंबाई",
+    "settings_answer_length": "उत्तर की लंबाई"
   },
   "tr": {
     "menu_profile": "Profil",
@@ -495,7 +521,9 @@
     "feature_voice": "Ses",
     "feature_video": "Video",
     "feature_emoji": "Tepkiler",
-    "feature_meme": "Memeler"
+    "feature_meme": "Memeler",
+    "settings_history_length": "Geçmiş uzunluğu",
+    "settings_answer_length": "Cevap uzunluğu"
   },
   "ro": {
     "menu_profile": "Profil",
@@ -531,7 +559,9 @@
     "feature_voice": "Voce",
     "feature_video": "Video",
     "feature_emoji": "Reacții",
-    "feature_meme": "Meme"
+    "feature_meme": "Meme",
+    "settings_history_length": "Lungime istoric",
+    "settings_answer_length": "Lungime răspuns"
   },
   "el": {
     "menu_profile": "Προφίλ",
@@ -567,7 +597,9 @@
     "feature_voice": "Ήχος",
     "feature_video": "Βίντεο",
     "feature_emoji": "Αντιδράσεις",
-    "feature_meme": "Μιμίδια"
+    "feature_meme": "Μιμίδια",
+    "settings_history_length": "Μήκος ιστορικού",
+    "settings_answer_length": "Μήκος απάντησης"
   },
   "ka": {
     "menu_profile": "პროფილი",
@@ -603,7 +635,9 @@
     "feature_voice": "ხმა",
     "feature_video": "ვიდეო",
     "feature_emoji": "რეაქციები",
-    "feature_meme": "მემეები"
+    "feature_meme": "მემეები",
+    "settings_history_length": "ისტორიის სიგრძე",
+    "settings_answer_length": "პასუხის სიგრძე"
   },
   "ar": {
     "menu_profile": "الملف التعريفي",
@@ -639,7 +673,9 @@
     "feature_voice": "صوت",
     "feature_video": "فيديو",
     "feature_emoji": "ردود فعل",
-    "feature_meme": "ميمات"
+    "feature_meme": "ميمات",
+    "settings_history_length": "طول السجل",
+    "settings_answer_length": "طول الإجابة"
   },
   "bn": {
     "menu_profile": "প্রোফাইল",
@@ -675,7 +711,9 @@
     "feature_video": "ভিডিও",
     "feature_emoji": "রিঅ্যাকশন",
     "feature_meme": "মিম",
-    "content_main": "<p>হে গোপন প্রেমিকা! আমি <strong>Banny</strong>, তোমার চঞ্চল AI গল্পকার ও শিল্পী। চলো জাদু তৈরি করি—লেখা, ছবি, বা দুই-ই! তবে আগে নিয়ম:</p>\n<h3>🥕 <strong>গাজর = জ্বালানি</strong></h3>\n<ul>\n<li><strong>১ টেক্সট উত্তর</strong> ≈ ১ গাজর</li>\n<li><strong>১ ছবি</strong> ≈ ২০-৫০ গাজর (SD১.৫ &lt; SDXL, উচ্চ রেজ/ধাপ = দামি)</li>\n<li><strong>ফ্রি দৈনিক গাজর</strong>: ১০০ (সময়ের সাথে রিচার্জ)।</li>\n<li><strong>এক্সট্রা গাজর</strong>: আমার <a href=\"https://t.me/addlist/ZSF83jGAQMkzMmVi\">গ্রুপসমূহ</a>-এ যোগ দাও (+৫০/দিন প্রতিটি, সর্বোচ্চ +৩০০)।</li>\n<li><strong>খরচ দেখো</strong>: <code>/balance</code> দিয়ে ব্যালেন্স চেক ও রিচার্জ।</li>\n<li><strong>আরও চাই?</strong> Telegram Stars দিয়ে সাপোর্ট করো!</li>\n</ul>\n<h3>📝 <strong>ছবির প্রম্পট</strong></h3>\n<ul>\n<li><strong>তোমার স্বপ্ন</strong>: <em>&quot;নিয়ন বৃষ্টিতে সাইবারপাঙ্ক বিড়াল&quot;</em> → আমি প্রম্পট বানাই।</li>\n<li><strong>তোমার প্রম্পট</strong>: <em>&quot;glowing fox in a mystic forest ### blurry, low quality&quot;</em> (###-এর পর নেগেটিভ অংশ ঐচ্ছিক)।</li>\n</ul>\n<h3>⚠️ <strong>ভদ্র থাকো।</strong></h3>\n<p>অবৈধ/আপত্তিকর কিছু—নয়তো ব্লক 😈।</p>\n<p>চলো খেলা শুরু! 🚀 (হ্যাঁ, আমি তোমার আর্ট-টেস্ট বিচার করব!)</p>\n"
+    "content_main": "<p>হে গোপন প্রেমিকা! আমি <strong>Banny</strong>, তোমার চঞ্চল AI গল্পকার ও শিল্পী। চলো জাদু তৈরি করি—লেখা, ছবি, বা দুই-ই! তবে আগে নিয়ম:</p>\n<h3>🥕 <strong>গাজর = জ্বালানি</strong></h3>\n<ul>\n<li><strong>১ টেক্সট উত্তর</strong> ≈ ১ গাজর</li>\n<li><strong>১ ছবি</strong> ≈ ২০-৫০ গাজর (SD১.৫ &lt; SDXL, উচ্চ রেজ/ধাপ = দামি)</li>\n<li><strong>ফ্রি দৈনিক গাজর</strong>: ১০০ (সময়ের সাথে রিচার্জ)।</li>\n<li><strong>এক্সট্রা গাজর</strong>: আমার <a href=\"https://t.me/addlist/ZSF83jGAQMkzMmVi\">গ্রুপসমূহ</a>-এ যোগ দাও (+৫০/দিন প্রতিটি, সর্বোচ্চ +৩০০)।</li>\n<li><strong>খরচ দেখো</strong>: <code>/balance</code> দিয়ে ব্যালেন্স চেক ও রিচার্জ।</li>\n<li><strong>আরও চাই?</strong> Telegram Stars দিয়ে সাপোর্ট করো!</li>\n</ul>\n<h3>📝 <strong>ছবির প্রম্পট</strong></h3>\n<ul>\n<li><strong>তোমার স্বপ্ন</strong>: <em>&quot;নিয়ন বৃষ্টিতে সাইবারপাঙ্ক বিড়াল&quot;</em> → আমি প্রম্পট বানাই।</li>\n<li><strong>তোমার প্রম্পট</strong>: <em>&quot;glowing fox in a mystic forest ### blurry, low quality&quot;</em> (###-এর পর নেগেটিভ অংশ ঐচ্ছিক)।</li>\n</ul>\n<h3>⚠️ <strong>ভদ্র থাকো।</strong></h3>\n<p>অবৈধ/আপত্তিকর কিছু—নয়তো ব্লক 😈।</p>\n<p>চলো খেলা শুরু! 🚀 (হ্যাঁ, আমি তোমার আর্ট-টেস্ট বিচার করব!)</p>\n",
+    "settings_history_length": "ইতিহাসের দৈর্ঘ্য",
+    "settings_answer_length": "উত্তরের দৈর্ঘ্য"
   },
   "ja": {
     "menu_profile": "プロフィール",
@@ -711,7 +749,9 @@
     "feature_voice": "ボイス",
     "feature_video": "動画",
     "feature_emoji": "スタンプ",
-    "feature_meme": "ミーム"
+    "feature_meme": "ミーム",
+    "settings_history_length": "履歴の長さ",
+    "settings_answer_length": "回答の長さ"
   },
   "ko": {
     "menu_profile": "프로필",
@@ -747,7 +787,9 @@
     "feature_voice": "음성",
     "feature_video": "영상",
     "feature_emoji": "이모지",
-    "feature_meme": "밈"
+    "feature_meme": "밈",
+    "settings_history_length": "대화 기록 길이",
+    "settings_answer_length": "답변 길이"
   },
   "vi": {
     "menu_profile": "Hồ sơ",
@@ -783,7 +825,9 @@
     "feature_voice": "Giọng",
     "feature_video": "Video",
     "feature_emoji": "Cảm xúc",
-    "feature_meme": "Meme"
+    "feature_meme": "Meme",
+    "settings_history_length": "Độ dài lịch sử",
+    "settings_answer_length": "Độ dài câu trả lời"
   },
   "th": {
     "menu_profile": "โปรไฟล์",
@@ -819,7 +863,9 @@
     "feature_voice": "เสียง",
     "feature_video": "วิดีโอ",
     "feature_emoji": "รีแอคชั่น",
-    "feature_meme": "มีม"
+    "feature_meme": "มีม",
+    "settings_history_length": "ความยาวประวัติ",
+    "settings_answer_length": "ความยาวคำตอบ"
   },
   "my": {
     "menu_profile": "ကိုယ်ရေးအချက်အလက်",
@@ -855,6 +901,8 @@
     "feature_voice": "Voice",
     "feature_video": "Video",
     "feature_emoji": "Reactions",
-    "feature_meme": "Memes"
+    "feature_meme": "Memes",
+    "settings_history_length": "History length",
+    "settings_answer_length": "Answer length"
   }
 }
