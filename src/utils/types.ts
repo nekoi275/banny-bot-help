@@ -35,9 +35,20 @@ export interface Model {
   jobs?: number;
 }
 
+export interface TextModel {
+  id: string;
+  name: string;
+  carrots: {
+    min: number;
+    max: number;
+    avg: number;
+  };
+}
+
 export interface UserSettings {
   width: number;
   model: string | null;
+  text_model?: string; // Optional for now
   seed: number | null;
   steps: number;
   height: number;
@@ -97,6 +108,7 @@ export interface Content {
   settings_mode_RPART: string;
   settings_mode_ART: string;
   settings_model: string;
+  settings_text_model: string;
   settings_resolution: string;
   settings_width: string;
   settings_height: string;
@@ -111,6 +123,7 @@ export interface Content {
   settings_cfg: string;
   profile_balance: string;
   profile_user_days: string;
+  message_cost: string;
   image_cost: string;
   top_up: string;
 }

@@ -6,7 +6,8 @@ import type {
   UserData,
   Content,
   UserSettings,
-  InvoiceData
+  InvoiceData,
+  TextModel
 } from "@/utils/types";
 
 export interface AppFeature {
@@ -21,6 +22,7 @@ const BASEURL =
 export const useAppStore = defineStore("app", () => {
   // Состояния
   const models = ref<Model[]>([]);
+  const textModels = ref<TextModel[]>([]);
   const user = ref<User>();
   const siteContent = ref<Content>();
   const selectedModel = ref<string | null>(null);
@@ -133,6 +135,19 @@ export const useAppStore = defineStore("app", () => {
     }
   }
 
+  async function fetchTextModels(): Promise<TextModel[]> {
+    try {
+      const response = await fetch(`${BASEURL}/models/text`);
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching text models:", error);
+      throw error;
+    }
+  }
+
   async function fetchUserData(id: number): Promise<UserData> {
     try {
       const response = await fetch(`${BASEURL}/user/${id}`);
@@ -173,6 +188,9 @@ export const useAppStore = defineStore("app", () => {
 
       const modelsData = await fetchModels();
       models.value = modelsData;
+
+      const textModelsData = await fetchTextModels();
+      textModels.value = textModelsData;
     } catch (error) {
       console.error("Error fetching initial data:", error);
       throw error;
@@ -254,6 +272,7 @@ export const useAppStore = defineStore("app", () => {
   return {
     // Состояния
     models,
+    textModels,
     user,
     siteContent,
     selectedModel,

@@ -23,6 +23,7 @@ const localSettings = ref<UserSettings>({
   steps: appStore.user?.settings?.steps || 20,
   lang: appStore.user?.settings?.lang || appStore.user?.lang || "en",
   negative: appStore.user?.settings?.negative || "",
+  text_model: appStore.user?.settings?.text_model || (appStore.textModels.length > 0 ? appStore.textModels[0].id : undefined),
   cfg: appStore.user?.settings.cfg || 7
 });
 
@@ -131,6 +132,26 @@ const saveSettings = async () => {
         class="dropdown-white-bg"
       />
     </div>
+    <div class="field">
+      <div class="field-header"> 
+        <label for="text_model">{{ appStore.siteContent?.settings_text_model }}</label>
+        <span class="cost-display" v-if="localSettings.text_model">
+           <strong>{{ appStore.siteContent?.message_cost }}:</strong> 
+           {{ appStore.textModels.find(m => m.id === localSettings.text_model)?.carrots.min }} - 
+           {{ appStore.textModels.find(m => m.id === localSettings.text_model)?.carrots.max }} 🥕
+        </span>
+      </div>
+      <Dropdown
+        id="text_model"
+        v-model="localSettings.text_model"
+        :options="appStore.textModels"
+        optionLabel="name"
+        optionValue="id"
+        @change="updateSettings('text_model', $event.value)"
+        :placeholder="appStore.siteContent?.settings_text_model"
+        class="dropdown-white-bg"
+      />
+    </div>
 
     <DimensionsControls
       :width="localSettings.width"
@@ -221,5 +242,18 @@ label {
 .disabled-label {
   color: #999;
   cursor: not-allowed;
+}
+.field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+.field-header label {
+  margin-bottom: 0;
+}
+.cost-display {
+  font-size: 0.9em;
+  color: var(--text-color-secondary);
 }
 </style>
