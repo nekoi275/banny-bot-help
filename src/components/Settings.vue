@@ -148,13 +148,13 @@ const saveSettings = async () => {
           <div class="dimension-buttons">
             <Button
               label="↑"
-              @click="localSettings.history_len = Math.min((localSettings.history_len || 0) + 1, 10); updateSettings('history_len', localSettings.history_len)"
+              @click="localSettings.history_len = Math.min((localSettings.history_len || 0) + 100, 5000); updateSettings('history_len', localSettings.history_len)"
               class="p-button-text dimension-button"
-              :disabled="(localSettings.history_len || 0) >= 10"
+              :disabled="(localSettings.history_len || 0) >= 5000"
             />
             <Button
               label="↓"
-              @click="localSettings.history_len = Math.max((localSettings.history_len || 0) - 1, 0); updateSettings('history_len', localSettings.history_len)"
+              @click="localSettings.history_len = Math.max((localSettings.history_len || 0) - 100, 0); updateSettings('history_len', localSettings.history_len)"
               class="p-button-text dimension-button"
               :disabled="(localSettings.history_len || 0) <= 0"
             />
@@ -162,8 +162,8 @@ const saveSettings = async () => {
           <InputNumber
             v-model="localSettings.history_len"
             :min="0"
-            :max="10"
-            :step="1"
+            :max="5000"
+            :step="100"
             disabled
             @input="updateSettings('history_len', $event.value)"
             class="compact-input"
@@ -176,9 +176,9 @@ const saveSettings = async () => {
         <div class="dimension-controls">
           <InputNumber
             v-model="localSettings.answer_len"
-            :min="64"
-            :max="512"
-            :step="64"
+            :min="50"
+            :max="500"
+            :step="50"
             disabled
             @input="updateSettings('answer_len', $event.value)"
             class="compact-input"
@@ -186,15 +186,15 @@ const saveSettings = async () => {
           <div class="dimension-buttons">
             <Button
               label="↑"
-              @click="localSettings.answer_len = Math.min((localSettings.answer_len || 256) + 64, 512); updateSettings('answer_len', localSettings.answer_len)"
+              @click="localSettings.answer_len = Math.min((localSettings.answer_len || 256) + 50, 500); updateSettings('answer_len', localSettings.answer_len)"
               class="p-button-text dimension-button"
-              :disabled="(localSettings.answer_len || 256) >= 512"
+              :disabled="(localSettings.answer_len || 256) >= 500"
             />
             <Button
               label="↓"
-              @click="localSettings.answer_len = Math.max((localSettings.answer_len || 256) - 64, 64); updateSettings('answer_len', localSettings.answer_len)"
+              @click="localSettings.answer_len = Math.max((localSettings.answer_len || 256) - 50, 50); updateSettings('answer_len', localSettings.answer_len)"
               class="p-button-text dimension-button"
-              :disabled="(localSettings.answer_len || 256) <= 64"
+              :disabled="(localSettings.answer_len || 256) <= 50"
             />
           </div>
         </div>
